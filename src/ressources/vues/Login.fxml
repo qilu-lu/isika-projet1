@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.FlowPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="182.0" layoutY="438.0" mnemonicParsing="false" text="OK" />
+      <Button layoutX="263.0" layoutY="438.0" mnemonicParsing="false" text="Reset" />
+      <Label layoutX="113.0" layoutY="331.0" text="Username" />
+      <Label layoutX="115.0" layoutY="380.0" text="password" />
+      <Label layoutX="202.0" layoutY="85.0" text="CENTRE DE FORMATION">
+         <font>
+            <Font size="45.0" />
+         </font>
+      </Label>
+      <Label layoutX="378.0" layoutY="183.0" text="WELCOME">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="226.0" layoutY="260.0" text="Login">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <PasswordField layoutX="202.0" layoutY="375.0" />
+      <Separator layoutX="445.0" layoutY="222.0" orientation="VERTICAL" prefHeight="539.0" prefWidth="0.0" />
+      <TextField layoutX="202.0" layoutY="326.0" />
+      <TextField layoutX="584.0" layoutY="326.0" />
+      <TextField layoutX="584.0" layoutY="375.0" />
+      <TextField layoutX="584.0" layoutY="422.0" />
+      <TextField layoutX="584.0" layoutY="476.0" />
+      <Label layoutX="500.0" layoutY="331.0" text="Username" />
+      <Label layoutX="502.0" layoutY="530.0" text="password" />
+      <Label layoutX="533.0" layoutY="380.0" text="Nom" />
+      <Label layoutX="518.0" layoutY="427.0" text="Prénom" />
+      <Label layoutX="468.0" layoutY="481.0" text="administrateur?" />
+      <Label layoutX="451.0" layoutY="576.0" text="confirm password" />
+      <PasswordField layoutX="584.0" layoutY="525.0" />
+      <PasswordField layoutX="584.0" layoutY="571.0" />
+      <Button layoutX="185.0" layoutY="492.0" mnemonicParsing="false" text="Créer un utilisateur" />
+      <Button layoutX="677.0" layoutY="628.0" mnemonicParsing="false" text="Reset" />
+      <Button layoutX="56.0" layoutY="679.0" mnemonicParsing="false" text="Quitter" />
+      <Button layoutX="565.0" layoutY="628.0" mnemonicParsing="false" text="OK" />
+   </children>
+</Pane>
