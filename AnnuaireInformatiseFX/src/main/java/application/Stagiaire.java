@@ -3,7 +3,7 @@ package application;
 public class Stagiaire implements Comparable<Stagiaire> {
 	private String nom;
 	private String prenom;
-	private String appartement;
+	private String departement;
 	private String promotion;
 	private int annee;
 	
@@ -23,12 +23,12 @@ public class Stagiaire implements Comparable<Stagiaire> {
 		this.prenom = prenom;
 	}
 
-	public String getAppartement() {
-		return appartement;
+	public String getdepartement() {
+		return departement;
 	}
 
-	public void setAppartement(String appartement) {
-		this.appartement = appartement;
+	public void setDepartement(String departement) {
+		this.departement = departement;
 	}
 
 	public String getPromotion() {
@@ -50,13 +50,25 @@ public class Stagiaire implements Comparable<Stagiaire> {
 	@Override
 	public int compareTo(Stagiaire o) {
 	int result=this.getNom().compareTo(o.getNom());
-	if(result>0) {
-		
+	
+		return result;
 	}
-		
-		
-		
-		return 0;
+
+	public Stagiaire() {
+		super();
 	}
+
+	public Stagiaire(String nom, String prenom) {
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+	}
+
+	@Override
+	public String toString() {
+		return "Stagiaire [nom=" + nom + ", prenom=" + prenom + ", departement=" + departement + ", promotion="
+				+ promotion + ", annee=" + annee + "]";
+	}
+	
 
 }

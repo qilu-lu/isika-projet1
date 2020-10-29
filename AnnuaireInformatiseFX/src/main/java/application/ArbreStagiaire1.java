@@ -1,5 +1,6 @@
 package application;
 
+
 public class ArbreStagiaire1<E extends Comparable<E>> {
 
 	private static class Noeud<T> {
@@ -105,6 +106,7 @@ public class ArbreStagiaire1<E extends Comparable<E>> {
 			return no.cle;
 		return null;
 	}
+
 
 	public Noeud<E> supprimer(Noeud<E> noeudRac, E cle) {
 		Noeud<E> noeud = rechercher(noeudRac, cle);
