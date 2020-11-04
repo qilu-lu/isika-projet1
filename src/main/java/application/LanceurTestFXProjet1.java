@@ -38,20 +38,21 @@ public class LanceurTestFXProjet1 extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static final String CHEMIN_FICHIER_STAGIAIRE_DON = "STAGIAIRES.DON";
 
+	
 
 	public static void main(String[] args) {
-		
+
 		LanceurTestFXProjet1 lanceur = new LanceurTestFXProjet1();
 		launch(args);
 	}
 
 	public LanceurTestFXProjet1() {
-		ArbreBinaireModel<Stagiaire> arbreStagiaire = new ArbreBinaireModel<Stagiaire>();
+	//	ArbreBinaireModel<Stagiaire> arbreStagiaire = new ArbreBinaireModel<Stagiaire>();
 
-		List<Stagiaire> listeStagiaire = new ArrayList<Stagiaire>();
+	//	List<Stagiaire> listeStagiaire = new ArrayList<Stagiaire>();
 		URL resource = getClass().getClassLoader().getResource(CHEMIN_FICHIER_STAGIAIRE_DON);
 		try (
 				BufferedReader bufferedReader = new BufferedReader(
@@ -82,19 +83,24 @@ public class LanceurTestFXProjet1 extends Application {
 				if (line.contentEquals("*")) {
 					numero = 0;
 
-					arbreStagiaire.ajouterNoeud(st);
+					Data.getInstance().getArbreStagiaire().ajouterNoeud(st);
 					st = new Stagiaire();
-					//arbreStagiaire.ajouterNoeud(st);
 				}
 			}
 			//			System.out.println(arbreStagiaire.getSize());
-			//			arbreStagiaire.infixe(arbreStagiaire.getRacine());
+			//listeStagiaires = arbreStagiaire.infixe(arbreStagiaire.getRacine());
 			
+				//Data.getInstance().getListeStagiaires().add(arbreStagiaire.get(i));
+				
+//			System.out.print(listeStagiaires);
+			//listeStagiaires.forEach(stag -> System.out.println(stag));
+
 
 			//			for (int i = 0; i < arbreStagiaire.getSize(); i++) {
-					//	lectureSeuleFichier(120 * i);
+			//	lectureSeuleFichier(120 * i);
 			//			}
-			rechercheFiltre(arbreStagiaire);
+
+//			rechercheFiltre(arbreStagiaire);
 
 		} catch (IOException e) {
 			e.getMessage();
@@ -107,14 +113,14 @@ public class LanceurTestFXProjet1 extends Application {
 		String filtreNom = null;
 		String filtreDepartement = null;
 		String filtrePromotion = null;
-		Integer filtreAnnee = 2014;		
+		Integer filtreAnnee = null;		
 		Predicate<Stagiaire> filter = e -> (filtreNom == null || e.getNom().startsWith(filtreNom))
 				&& (filtreDepartement == null || e.getDepartement().startsWith(filtreDepartement))
 				&& (filtrePromotion == null || e.getPromotion().startsWith(filtrePromotion))
 				&& (filtreAnnee == null || e.getAnnee() == filtreAnnee);		
 		ArbreBinaireModel<Stagiaire> stagiaireFiltre = arbre.filter(filter);	
 		for (int i = 0; i < stagiaireFiltre.getSize(); i++) {
-			System.out.println(stagiaireFiltre.get(stagiaireFiltre.getRacine(), i));
+			System.out.println(stagiaireFiltre.get(i));
 		}
 
 	}
@@ -131,9 +137,9 @@ public class LanceurTestFXProjet1 extends Application {
 		StringBuilder stNoeudD = new StringBuilder();
 		StringBuilder stNoeudDoublon = new StringBuilder();
 		StringBuilder stNoeud = new StringBuilder();
-		List<Stagiaire> listeExportBin = new ArrayList<Stagiaire>();
-		
-		
+
+
+
 		StringBuilder stagiaireNoeud = new StringBuilder();
 		// passer la position en argument
 
@@ -147,7 +153,7 @@ public class LanceurTestFXProjet1 extends Application {
 				stNom.append(raf.readChar());
 			}
 			String nom = stNom.toString().trim();
-			
+
 			stagiaireNoeud.append(nom);
 
 			raf.seek(position + 42);

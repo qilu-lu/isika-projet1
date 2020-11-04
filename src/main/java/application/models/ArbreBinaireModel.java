@@ -1,5 +1,7 @@
 package application.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 
@@ -30,7 +32,7 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 		}
 
 	}
-
+	private List<E> listeStagiaires=new ArrayList<>();
 	private Noeud<E> racine;
 	private int size;
 
@@ -65,7 +67,7 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 					if (courant.gauche == null) {
 						courant.gauche = new Noeud<E>(st, ecr.calculerID());
 						size++;
-						//recupérer les infos
+						//recupï¿½rer les infos
 						ecr.ecrireNouveauNoeud(st, courant.gauche.getID());
 						ecr.reecrirePositionNoeud(courant.stagiaire, courant.gauche.getID(), courant.getID(),
 								st.getPositionNoeudG());
@@ -154,7 +156,11 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 
 	}
 
-	public E get(Noeud<E> r, int pos) {	
+	public E get( int pos) {	
+		return get(racine, pos);
+	}
+	
+	private E get(Noeud<E> r, int pos) {	
 		if (r != null) {
 			if (r.iD == pos)
 				return r.stagiaire;			
@@ -172,31 +178,25 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 	}
 
 	// parcours infixe
-	public void infixe(Noeud<E> r) {
+	public List<E> infixe(Noeud<E> r) {
 		if (r != null) {
 			infixe(r.gauche);
-			System.out.print(r.stagiaire + "\n");
+			listeStagiaires.add(r.stagiaire);
+//			System.out.println(r.stagiaire.toString() +"\n");
 			infixe(r.droit);
 		}
+		return listeStagiaires;
 	}
+	
+//	public void infixe(Noeud<E> r) {
+//		if (r != null) {
+//			infixe(r.gauche);
+//			System.out.println(r.getID() +"\n");
+//			infixe(r.droit);
+//		}
+//	}
 
-	// parcours préfixe
-	public void prefixe(Noeud<E> r) {
-		if (r != null) {
-			System.out.print(r.stagiaire + ", " + r.getID() + "\n");
-			prefixe(r.gauche);
-			prefixe(r.droit);
-		}
-	}
-
-	// parcours postfixe
-	public void postfixe(Noeud<E> r) {
-		if (r != null) {
-			postfixe(r.gauche);
-			postfixe(r.droit);
-			System.out.print(r.stagiaire + ", " + r.getID() + "\n");
-		}
-	}
+	
 
 	@Override
 	public String toString() {
