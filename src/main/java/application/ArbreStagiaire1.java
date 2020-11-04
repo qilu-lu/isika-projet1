@@ -1,5 +1,8 @@
 package application;
 
+import java.util.function.Predicate;
+
+//import fr.isika.arbrebinaire.ArbreBinaire.Noeud;
 
 public class ArbreStagiaire1<E extends Comparable<E>> {
 
@@ -7,12 +10,15 @@ public class ArbreStagiaire1<E extends Comparable<E>> {
 		private T cle;
 		private Noeud<T> gauche;
 		private Noeud<T> droit;
+		private Noeud<T> doublon;
+		int pos = -1;
 
 		public Noeud() {
 			super();
 			cle = null;
 			gauche = null;
 			droit = null;
+
 		}
 
 		public Noeud(T cle) {
@@ -24,11 +30,13 @@ public class ArbreStagiaire1<E extends Comparable<E>> {
 
 		@Override
 		public String toString() {
-			return "Noeud [cle=" + cle + "]";
+
+			return "Noeud [cle=" + cle + ", pos=" + pos + "]";
 		}
 	}
 
 	private Noeud<E> racine;
+	public int size;
 
 	public ArbreStagiaire1() {
 		super();
@@ -40,9 +48,10 @@ public class ArbreStagiaire1<E extends Comparable<E>> {
 
 	public void ajouterNoeud(E valeur) {
 		Noeud<E> courant = racine;
-		if (courant == null)
+		if (courant == null) {
 			racine = new Noeud<E>(valeur);
-		else {
+			racine.pos = size++;
+		} else {
 			boolean trouve = false;
 			while (!trouve) {
 				int test = valeur.compareTo(courant.cle);
@@ -51,6 +60,7 @@ public class ArbreStagiaire1<E extends Comparable<E>> {
 				} else if (test < 0) {
 					if (courant.gauche == null) {
 						courant.gauche = new Noeud<E>(valeur);
+						courant.gauche.pos = size++;
 						trouve = true;
 					} else {
 						courant = courant.gauche;
@@ -58,6 +68,7 @@ public class ArbreStagiaire1<E extends Comparable<E>> {
 				} else {
 					if (courant.droit == null) {
 						courant.droit = new Noeud<E>(valeur);
+						courant.droit.pos = size++;
 						trouve = true;
 					} else {
 						courant = courant.droit;
@@ -66,14 +77,37 @@ public class ArbreStagiaire1<E extends Comparable<E>> {
 				}
 			}
 		}
+		// recomputeIndex(racine, 0);
+//		size++;
 
 	}
+
+//	public int position(Noeud<E> r, E valRech) {
+//		int pos=-1;
+//			while(r.cle!=valRech) {
+//				//position(r.gauche);
+//			}
+//		}
+//	
 
 //parcours infixe
 	public void infixe(Noeud<E> r) {
 		if (r != null) {
 			infixe(r.gauche);
-			System.out.print(r.cle + ";");
+			String s = r.cle + "  " + r.pos + "  ";
+			if (r.gauche != null) {
+				s += r.gauche.pos;
+			} else {
+				s += "null";
+			}
+			s += "  ";
+			if (r.droit != null) {
+				s += r.droit.pos;
+			} else {
+				s += "null";
+			}
+			s += "  ";
+			System.out.println(s);
 			infixe(r.droit);
 		}
 	}
@@ -84,6 +118,17 @@ public class ArbreStagiaire1<E extends Comparable<E>> {
 			ajouterNoeud(r.cle);
 			addAll(r.droit);
 		}
+	}
+
+	public int recomputeIndex(Noeud<E> r, int pos) {
+		if (r != null) {
+			pos = recomputeIndex(r.gauche, pos);
+			r.pos = pos;
+			pos++;
+			pos = recomputeIndex(r.droit, pos);
+		}
+
+		return pos;
 	}
 
 	public Noeud<E> rechercher(Noeud<E> noeud, E valRech) {
@@ -107,7 +152,6 @@ public class ArbreStagiaire1<E extends Comparable<E>> {
 		return null;
 	}
 
-
 	public Noeud<E> supprimer(Noeud<E> noeudRac, E cle) {
 		Noeud<E> noeud = rechercher(noeudRac, cle);
 		if (noeud != null) {
@@ -121,11 +165,11 @@ public class ArbreStagiaire1<E extends Comparable<E>> {
 					noeud.droit.gauche = null;
 					addAll(n);
 				} else if (noeud.droit.gauche == null) {
-					
+
 					noeud.cle = noeud.droit.cle;
-					noeud.droit.cle=noeud.droit.droit.cle;
-					Noeud<E>nn=noeud.droit.droit ;
-					noeud.droit.droit=null;
+					noeud.droit.cle = noeud.droit.droit.cle;
+					Noeud<E> nn = noeud.droit.droit;
+					noeud.droit.droit = null;
 					addAll(nn);
 				}
 			} else if (noeud.gauche != null && noeud.droit == null || noeud.gauche == null && noeud.droit != null) {
@@ -138,13 +182,49 @@ public class ArbreStagiaire1<E extends Comparable<E>> {
 					noeud.droit = null;
 				}
 			}
-
+			size--;
 		} else {
 			return null;
 		}
-
+		/// !!!! n'oublie pas!!!
+		// recomputeIndex(racine, 0);
 		return noeud;
 
+	}
+
+	public E get(Noeud<E> r, int pos) {
+
+		if (r != null) {
+			if (r.pos == pos)
+				return r.cle;
+
+			E e = get(r.gauche, pos);
+			if (e != null) {
+				return e;
+			}
+			// System.out.println(r);
+			e = get(r.droit, pos);
+			if (e != null) {
+				return e;
+			}
+		}
+		return (E) null;
+	}
+
+	public int getsize() {
+
+		return size;
+	}
+	public ArbreStagiaire1<E>filter(Predicate<E>p){
+		ArbreStagiaire1<E>ret=new ArbreStagiaire1<>();
+		for (int i = 0; i < this.size; i++) {
+			final E el=this.get(getRacine(), i);
+			if(p.test(el)) {
+				ret.ajouterNoeud(el);
+			}
+		}
+		return ret;
+		
 	}
 
 }
