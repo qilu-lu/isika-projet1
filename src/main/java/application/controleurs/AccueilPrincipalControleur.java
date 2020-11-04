@@ -179,11 +179,12 @@ public class AccueilPrincipalControleur implements Initializable {
 
 	private void modifierLine() {
 		// TODO MODIFIER LA LIGNE
+		//TODO Modifier dans l'arbre
 		//selection de la ligne
-		//ajouter fenetre (ajoutstagiaire) de création stagiaire
-		//champ prérempli
+		//ajouter fenetre (ajoutstagiaire) de crï¿½ation stagiaire
+		//champ prÃ©rempli
 		//modifier et accepter
-		//mette à jour liste stagiaire tableau refresh
+		//mettre Ã  jour liste stagiaire tableau refresh
 		Stagiaire stagiaire = stagiairesTable.getSelectionModel().getSelectedItem();
 		if(stagiaire != null) {
 			try {
@@ -201,24 +202,25 @@ public class AccueilPrincipalControleur implements Initializable {
 
 	private void supprimerLine() {
 		// TODO SUPPRIMER LA LIGNE
+		//TODO supprimer dans l'arbre
 		//selection de la ligne
 		//supprimer tous les champs et ligne complete (attention suppr noeud binaire?)
-		//mettre à jour la liste tableau refresh
+		//mettre Ã  jour la liste tableau refresh
 		Stagiaire stagiaire = stagiairesTable.getSelectionModel().getSelectedItem();
 		if(stagiaire != null) {
 			listeDynamiqueStagiaires.remove(stagiaire);
 			stagiairesTable.refresh();
 		} else {
 			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Suppression d'un produit");
-			alert.setHeaderText("Veuillez sÃ©lectionner un produit Ã  supprimer");
+			alert.setTitle("Suppression d'un stagiaire");
+			alert.setHeaderText("Veuillez sÃ©lectionner la ligne Ã  supprimer");
 			alert.show();
 		}
 	}
 
 	private void imprimerListeFiltree() {
-		// TODO : Faire la méthode exporter en PDF
-		//		MeessageFormat header = new MessageFormat("Liste des Stagiaires :");
+		// TODO : Faire la mÃ©thode exporter en PDF
+		//		MessageFormat header = new MessageFormat("Liste des Stagiaires :");
 		//		MessageFormat footer = new MessageFormat("Page{0,number,integer}");
 		//		try {
 		//			listeDynamiqueStagiaires.print(JTable.PrintMode.NORMAL, header, footer);
@@ -246,7 +248,7 @@ public class AccueilPrincipalControleur implements Initializable {
 	@FXML
 	public void closeWindow() {
 		Platform.exit();
-		System.out.println("application quitté");
+		System.out.println("application quittÃ©e");
 	}
 
 	@SuppressWarnings("unchecked")

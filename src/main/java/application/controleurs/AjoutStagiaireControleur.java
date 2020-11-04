@@ -75,11 +75,11 @@ public class AjoutStagiaireControleur implements Initializable {
 			stagiaire.setPromotion(promoStTextField.getText());
 			stagiaire.setAnnee(Integer.valueOf(anneeStTextField.getText()));
 			
+			//TODO récupération des données du nouveau stagiaire dans l'arbre
 			//arbreStagiaires.ajoutNouveauNoeud(stagiaire);
 			//
 			
 			vueAjoutStagiaire.mettreAJourTable(stagiaire);
-			//TODO récupération des données du nouveau stagiaire dans l'arbre
 			
 
 			closeStage();

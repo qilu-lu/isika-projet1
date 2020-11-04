@@ -89,9 +89,10 @@ public class LanceurTestFXProjet1 extends Application {
 			}
 			//			System.out.println(arbreStagiaire.getSize());
 			//			arbreStagiaire.infixe(arbreStagiaire.getRacine());
+			
 
 			//			for (int i = 0; i < arbreStagiaire.getSize(); i++) {
-			//				lectureSeuleFichier(120 * i);
+					//	lectureSeuleFichier(120 * i);
 			//			}
 			rechercheFiltre(arbreStagiaire);
 
@@ -131,7 +132,8 @@ public class LanceurTestFXProjet1 extends Application {
 		StringBuilder stNoeudDoublon = new StringBuilder();
 		StringBuilder stNoeud = new StringBuilder();
 		List<Stagiaire> listeExportBin = new ArrayList<Stagiaire>();
-
+		
+		
 		StringBuilder stagiaireNoeud = new StringBuilder();
 		// passer la position en argument
 
@@ -145,6 +147,7 @@ public class LanceurTestFXProjet1 extends Application {
 				stNom.append(raf.readChar());
 			}
 			String nom = stNom.toString().trim();
+			
 			stagiaireNoeud.append(nom);
 
 			raf.seek(position + 42);
