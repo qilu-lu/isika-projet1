@@ -8,11 +8,6 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="552.0" style="-fx-background-color: 0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="493.0" fitWidth="193.0" layoutX="-7.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Untitled%20design%20(3).png" />
-         </image>
-      </ImageView>
       <TextField fx:id="eMailTextField" layoutX="248.0" layoutY="130.0" />
       <Label layoutX="193.0" layoutY="135.0" text="Email" />
       <Label layoutX="195.0" layoutY="236.0" text="Nom" />
@@ -24,9 +19,9 @@
             <Image url="@user.png" />
          </image>
       </ImageView>
-      <Label layoutX="202.0" layoutY="60.0" text="Ajout de nouvel utilisateur">
+      <Label layoutX="202.0" layoutY="60.0" text="Ajout de nouvel utilisateur" textFill="#048b9a">
          <font>
-            <Font size="24.0" />
+            <Font name="System Bold" size="24.0" />
          </font>
       </Label>
       <Label layoutX="135.0" layoutY="185.0" text="Code Employé" />

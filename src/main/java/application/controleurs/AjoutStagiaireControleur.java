@@ -17,33 +17,23 @@ import javafx.scene.control.TextField;
 
 public class AjoutStagiaireControleur implements Initializable {
 
-
 	@FXML
-	private Button resetBtn;
-
+	private Button resetStBtn;
 	@FXML
-	private Button ajoutBtn;
-
+	private Button ajoutStBtn;
 	@FXML
 	private TextField nomStTextField;
-
 	@FXML
-	private Button annulBtn;
-
+	private Button annulStBtn;
 	@FXML
 	private TextField departementStTextField;
-
 	@FXML
 	private TextField anneeStTextField;
-
 	@FXML
 	private TextField prenomStTextField;
-
 	@FXML
 	private TextField promoStTextField;
-
-
-
+	
 	private AccueilPrincipalControleur vueAjoutStagiaire;
 	private Stage ajoutStagiaireStage;
 
@@ -51,43 +41,30 @@ public class AjoutStagiaireControleur implements Initializable {
 		this.vueAjoutStagiaire = vueAjoutStagiaire;
 	}
 
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		annulBtn.setOnAction(new EventHandler<ActionEvent>() {
-
+		annulStBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				returnToAccueilPrincipal();
-
 			}
 		});
-
-		resetBtn.setOnAction(new EventHandler<ActionEvent>() {
-
+		resetStBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				resetAll();
-
 			}
 		});
-
-		ajoutBtn.setOnAction(new EventHandler<ActionEvent>() {
-
+		ajoutStBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				ajouterNewStagiaire();
-
 			}
 		});
 	}
 
-
-
 	protected void ajouterNewStagiaire() {
-
-		// Valider la saisie
 		String erreurs = validerSaisie();
 		if (erreurs.isEmpty()) {
 
@@ -99,7 +76,6 @@ public class AjoutStagiaireControleur implements Initializable {
 			stagiaire.setAnnee(Integer.valueOf(anneeStTextField.getText()));
 
 			vueAjoutStagiaire.mettreAJourModele(stagiaire);
-			vueAjoutStagiaire.mettreAJourModele(stagiaire);
 
 			closeStage();
 		} else {
@@ -110,11 +86,9 @@ public class AjoutStagiaireControleur implements Initializable {
 		}
 	}
 
-	
 	private void closeStage() {
 		ajoutStagiaireStage.close();
 	}
-
 	@FXML
 	public void resetAll() {
 		this.nomStTextField.clear();
@@ -124,20 +98,13 @@ public class AjoutStagiaireControleur implements Initializable {
 		this.anneeStTextField.clear();
 		System.out.println("all clear");
 	}
-
-
 	@FXML
 	public void returnToAccueilPrincipal() {
-		// TODO Auto-generated method stub
-		//Stage stage = (Stage) retour.getScene.getWindow(); 
-		//stage.close(); 
+//		Stage stage = (Stage) annulStBtn.getScene().getWindow(); 
+//		stage.close(); 
 		System.out.println("retour vers Accueil Principal");
+		ajoutStagiaireStage.hide();
 	}
-
-
-
-
-
 
 	private String validerSaisie() {
 		StringBuilder errorsBuilder = new StringBuilder();

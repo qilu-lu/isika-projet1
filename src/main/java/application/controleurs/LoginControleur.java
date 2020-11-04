@@ -24,83 +24,60 @@ public class LoginControleur implements Initializable {
 	private static final String VUE_AJOUT_NOUVEL_UTILISATEUR_VIEW_PATH = "NouvelUtilisateur.fxml";
 	private static final String VUE_ACCUEIL_VIEW_PATH = "AccueilPrincipal.fxml";
 
-
 	@FXML
 	private Button creerUnNouvelUtilisateur;
-
 	@FXML
 	private Button resetBtn;
-
 	@FXML
 	private Button okBtn;
-
 	@FXML
 	private Button quitterBtn;
-
 	@FXML
 	private TextField votreEMailTextField;
-
 	@FXML
 	private PasswordField votreMdpField;
+
 	private Stage primaryStage;
-
-
-
-
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		creerUnNouvelUtilisateur.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent event) {
 				try {
 					afficherFenetreNouvelUtilisateur();
-
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		});
-
 		resetBtn.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent event) {
 				resetAll();
-
 			}
 		});
-
 		quitterBtn.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent event) {
 				closeWindow();
-
 			}
 		});
-
 		okBtn.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent event) {
 				try {
 					allerVersAccueilPrincipal();
 					primaryStage.hide();
-
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			}
 		});
 	}
-	
-	
-	
+
+
+
 	private void afficherFenetreNouvelUtilisateur() throws IOException {
 		// TODO Auto-generated method stub
 
@@ -117,32 +94,36 @@ public class LoginControleur implements Initializable {
 		ajoutNouvelUtilisateurStage.setScene(scene);
 		ajoutNouvelUtilisateurStage.show();
 	}
-
 	@FXML
 	public void resetAll() {
 		this.votreEMailTextField.clear();
 		this.votreMdpField.clear();
 		System.out.println("all clear");
 	}
-
 	@FXML
 	public void closeWindow() {
 		Platform.exit();
 		System.out.println("application quittée");
 	}
+	public void setStage(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+
+	}
+	public void afficher() {
+		this.primaryStage.show();
+	}
+
 
 	@FXML
 	public void allerVersAccueilPrincipal() throws IOException {
-		//à parametrer
+		//A FAIRE LOGIN OK CONNECTION
+
 		// login (email+mdp comparer à la list) OK
 		// comparer login si admin ou formateur
 		// remplacer fenetre par AccueilPrincipal (admin ou non) 
 		// vue admin avec bouton modifier et suppr stagiaire dans la list
 		// vue utilisateur lambda sans bouton modifier et suppr stagiaire dans la list
 
-		okBtn.setOnAction(e->{
-			System.out.println("Ok button appuyé");
-		});
 
 		//		ActionListener ActionLog = new ActionListener() {
 		//
@@ -161,7 +142,7 @@ public class LoginControleur implements Initializable {
 
 
 
-//		ConnexionModel coModel = new ConnexionModel();
+		//		ConnexionModel coModel = new ConnexionModel();
 		AccueilPrincipalControleur  controleur = new AccueilPrincipalControleur(this);
 
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(VUE_ACCUEIL_VIEW_PATH));
@@ -173,21 +154,7 @@ public class LoginControleur implements Initializable {
 		accueilStage.setTitle("Accueil");
 		accueilStage.setScene(scene);
 		accueilStage.show();
-		
+
 		controleur.setStage(accueilStage);
 	}
-	
-	public void setStage(Stage primaryStage) {
-		this.primaryStage = primaryStage;
-		
-	}
-	
-	public void afficher() {
-		this.primaryStage.show();
-	}
-
-
 }
-
-
-
