@@ -42,7 +42,7 @@ public class Main extends Application {
 		for (Stagiaire stagiaire : s) {
 			arbre.ajouterNoeud(stagiaire);
 		}
-		System.out.println(arbre.getsize());
+System.out.println(arbre.getsize());
 		String filtreNom = null;
 		String filtreDepartement = null;
 		String filtrePromotion = null;
@@ -58,13 +58,13 @@ public class Main extends Application {
 		for (int i = 0; i < stagiaireFiltre.size; i++) {
 			System.out.println(stagiaireFiltre.get(stagiaireFiltre.getRacine(), i));
 
-			// List<Stagiaire> l = ReadFile.readStagiaireFromFile();
-			// System.out.println(ReadFile.calculerTailleNom(ReadFile.remplir(l)));
-			// System.out.println(ReadFile.calculerTaillePreNom(l));
-			// System.out.println(ReadFile.calculerTailleDepartement(l));
-			// System.out.println(ReadFile.calculerTailleDepartement1(l));
-			// System.out.println(ReadFile.calculerTaillePromotion(l));
-			// List<Stagiaire> s = ReadFile.remplir(l);
+		// List<Stagiaire> l = ReadFile.readStagiaireFromFile();
+		// System.out.println(ReadFile.calculerTailleNom(ReadFile.remplir(l)));
+		// System.out.println(ReadFile.calculerTaillePreNom(l));
+		// System.out.println(ReadFile.calculerTailleDepartement(l));
+		// System.out.println(ReadFile.calculerTailleDepartement1(l));
+		// System.out.println(ReadFile.calculerTaillePromotion(l));
+		// List<Stagiaire> s = ReadFile.remplir(l);
 //aligner les stagiaires
 //		for (Stagiaire stagiaire : s) {
 //			System.out.println(stagiaire.getNom() + stagiaire.getNom().length());
@@ -78,22 +78,23 @@ public class Main extends Application {
 //		for (Stagiaire stagiaire : s) {
 //			arbre.ajouterNoeud(stagiaire);
 //		}
-			// System.out.println(arbre.getsize());
-			// System.out.println(arbre.getRacine());
-			// arbre.infixe(arbre.getRacine());
+		// System.out.println(arbre.getsize());
+		// System.out.println(arbre.getRacine());
+		// arbre.infixe(arbre.getRacine());
 
 //		for (int i = 0; i < arbre.getsize(); i++) {
 //			System.out.println(arbre.get(arbre.getRacine(), i)+" "+i);
 //			
 //	}
-			// arbre.infixe(arbre.getRacine());
-			DataOutputStream out = new DataOutputStream(new FileOutputStream("FileBin.bin"));
+	//arbre.infixe(arbre.getRacine());
+		DataOutputStream out = new DataOutputStream(new FileOutputStream("FileBin.bin"));
 
-			out.flush();
-			out.close();
+		
+		out.flush();
+		out.close();
 
-			RandomAccessFile in = new RandomAccessFile("FileBin.bin", "r");
-			int len = (int) (in.length() / Stagiaire.RecordSize);
+		RandomAccessFile in = new RandomAccessFile("FileBin.bin", "r");
+		int len = (int) (in.length() / Stagiaire.RecordSize);
 
 //		for (long i = 0; i < len; i++) {
 //			in.seek(i * Stagiaire.RecordSize);
@@ -101,11 +102,10 @@ public class Main extends Application {
 //			Stagiaire str = readStagiaire(in);
 //			System.out.println(str.toString());
 //		}
-			// System.out.println();
-			launch(args);
-		}
+		//System.out.println();
+		launch(args);
 	}
-
+	}
 	private static void writeStr(DataOutputStream out, Stagiaire s) throws IOException {
 		writeString(s.getNom(), Stagiaire.NomSize, out);
 		writeString(s.getPrenom(), Stagiaire.PrenomSize, out);
