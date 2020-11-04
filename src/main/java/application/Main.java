@@ -42,22 +42,21 @@ public class Main extends Application {
 		for (Stagiaire stagiaire : s) {
 			arbre.ajouterNoeud(stagiaire);
 		}
+System.out.println(arbre.getsize());
+		String filtreNom = null;
+		String filtreDepartement = null;
+		String filtrePromotion = null;
+		Integer filtreAnnee = 2000;
 
-		String FiltreNom = "PEREIRA";
-		String FiltreDepartement = null;
-		String FiltrePromotion = null;
-		Integer FiltreAnnee = null;
-
-		Predicate<Stagiaire> filter = e -> (FiltreNom == null || e.getNom().startsWith(FiltreNom))
-				&& (FiltreDepartement == null || e.getdepartement().startsWith(FiltreDepartement))
-				&& (FiltrePromotion == null || e.getPromotion().startsWith(FiltrePromotion))
-				&& (FiltreAnnee == null || e.getAnnee() == FiltreAnnee);
+		Predicate<Stagiaire> filter = e -> (filtreNom == null || e.getNom().startsWith(filtreNom))
+				&& (filtreDepartement == null || e.getdepartement().startsWith(filtreDepartement))
+				&& (filtrePromotion == null || e.getPromotion().startsWith(filtrePromotion))
+				&& (filtreAnnee == null || e.getAnnee() == filtreAnnee);
 
 		ArbreStagiaire1<Stagiaire> stagiaireFiltre = arbre.filter(filter);
 
 		for (int i = 0; i < stagiaireFiltre.size; i++) {
 			System.out.println(stagiaireFiltre.get(stagiaireFiltre.getRacine(), i));
-		}
 
 		// List<Stagiaire> l = ReadFile.readStagiaireFromFile();
 		// System.out.println(ReadFile.calculerTailleNom(ReadFile.remplir(l)));
@@ -85,13 +84,12 @@ public class Main extends Application {
 
 //		for (int i = 0; i < arbre.getsize(); i++) {
 //			System.out.println(arbre.get(arbre.getRacine(), i)+" "+i);
-//		}
+//			
+//	}
+	//arbre.infixe(arbre.getRacine());
 		DataOutputStream out = new DataOutputStream(new FileOutputStream("FileBin.bin"));
 
-		for (int i = 0; i < arbre.getsize(); i++) {
-			writeStr(out, arbre.get(arbre.getRacine(), i));
-			out.writeBytes("\n");
-		}
+		
 		out.flush();
 		out.close();
 
@@ -104,10 +102,10 @@ public class Main extends Application {
 //			Stagiaire str = readStagiaire(in);
 //			System.out.println(str.toString());
 //		}
-		System.out.println();
+		//System.out.println();
 		launch(args);
 	}
-
+	}
 	private static void writeStr(DataOutputStream out, Stagiaire s) throws IOException {
 		writeString(s.getNom(), Stagiaire.NomSize, out);
 		writeString(s.getPrenom(), Stagiaire.PrenomSize, out);
