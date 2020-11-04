@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.swing.JTable;
+
 import application.models.Stagiaire;
 import application.models.StagiairesModel;
 import javafx.application.Platform;
@@ -15,16 +17,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
-
 
 public class AccueilPrincipalControleur implements Initializable {
 	private static final String VUE_AJOUT_STAGIAIRE_VIEW_PATH = "AjoutStagiaire.fxml";
@@ -37,93 +39,69 @@ public class AccueilPrincipalControleur implements Initializable {
 
 	@FXML
 	private MenuItem decoMenuBtn;
-
 	@FXML
 	private MenuItem quitMenuBtn;
-
 	@FXML
 	private MenuItem ajoutMenuBtn;
-
+	@FXML
+	private MenuItem exporterEnPdfMenuBtn;
 	@FXML
 	private Button ajoutBtn;
-
 	@FXML
 	private Button modifBtn;
-
 	@FXML
 	private Button supprBtn;
-
 	@FXML
 	private Button rechercheBtn;
-	
 	@FXML
 	private Button resetBtn;
-
 	@FXML
 	private Button quitBtn;
-
 	@FXML
 	private Button decoBtn;
-
 	@FXML
 	private TextField nomRechercheTextField;
-
 	@FXML
 	private TextField departementRechercheBtn;
-
 	@FXML
 	private TextField promotionRechercheBtn;
-
 	@FXML
 	private TextField anneeRechercheBtn;
-
 	@FXML
 	private TableView<Stagiaire> stagiairesTable;
-
 	@FXML
-	private TableColumn<Stagiaire, String> NOM;
-
+	private TableColumn<Stagiaire, String> nom;
 	@FXML
-	private TableColumn<Stagiaire, String> PRENOM;
-
+	private TableColumn<Stagiaire, String> prenom;
 	@FXML
-	private TableColumn<Stagiaire, String> DEPARTEMENT;
-
+	private TableColumn<Stagiaire, String> departement;
 	@FXML
-	private TableColumn<Stagiaire, String> PROMOTION;
-
+	private TableColumn<Stagiaire, String> promotion;
 	@FXML
-	private TableColumn<Stagiaire, Integer> ANNEE;
+	private TableColumn<Stagiaire, Integer> annee;
 
 
 	private StagiairesModel modeleGlobalStagiaires;
 	private ObservableList<Stagiaire> listeDynamiqueStagiaires;
 
 	private LoginControleur vueAccueil;
-
 	private Stage primaryStage;
 
 	public AccueilPrincipalControleur(LoginControleur vueAccueil) {
 		this.vueAccueil = vueAccueil;
 	}
 
-
-
 	public LoginControleur getvueAccueil() {
 		return vueAccueil;
 	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 
 		modeleGlobalStagiaires = new StagiairesModel();
-
-		//init la table
 		initStagiairesTable();
 
-		//Ajout de l'action du bouton ajouter
-		ajoutBtn.setOnAction(new EventHandler<ActionEvent>() {
-
+		EventHandler<ActionEvent> ajout = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
@@ -131,52 +109,21 @@ public class AccueilPrincipalControleur implements Initializable {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
 			}
-		});
-		
-		resetBtn.setOnAction(new EventHandler<ActionEvent>() {
+		};
+		ajoutBtn.setOnAction(ajout);
+		ajoutMenuBtn.setOnAction(ajout);
 
-			@Override
-			public void handle(ActionEvent event) {
-				resetAll();
-
-			}
-		});
-
-		quitMenuBtn.setOnAction(new EventHandler<ActionEvent>() {
-
+		EventHandler<ActionEvent> quitter = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				closeWindow();
-
 			}
-		});
+		};
+		quitBtn.setOnAction(quitter);
+		quitMenuBtn.setOnAction(quitter);
 
-		quitBtn.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				closeWindow();
-
-			}
-		});
-
-		//		decoMenuBtn.setOnAction(new EventHandler<ActionEvent>() {
-		//
-		//			@Override
-		//			public void handle(ActionEvent event) {
-		//				try {
-		//					goToLogin();
-		//				} catch (IOException e) {
-		//					e.printStackTrace();
-		//				}
-		////TODO : implémenter goToLogin
-		//			}
-		//		});
-
-		EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>() {
-
+		EventHandler<ActionEvent> deco = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
@@ -185,27 +132,43 @@ public class AccueilPrincipalControleur implements Initializable {
 					e.printStackTrace();
 				}
 			}
-
 		};
+		decoMenuBtn.setOnAction(deco);
+		decoBtn.setOnAction(deco);
 
-		decoMenuBtn.setOnAction(eventHandler);
-		decoBtn.setOnAction(eventHandler);
+		resetBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				resetAll();
+			}
+		});
+		modifBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				modifierLine();
+			}
+		});
+		supprBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				supprimerLine();
+			}
+		});
+		exporterEnPdfMenuBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				imprimerListeFiltree();
+			}
+		});
 	}
 
 
-	public void afficherFenetreAjoutStagiaire() throws IOException {
-
-		// On charge le fichier FXML pour la vue "Ajout stagiaire" et on lui associe son controleur 
+	public void afficherFenetreAjoutStagiaire() throws IOException { 
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(VUE_AJOUT_STAGIAIRE_VIEW_PATH));
 		loader.setController(this);
-
-		// On charge l'Ã©lÃ©ment parent de la vue (qui est un panel)
 		Pane rootPane = loader.load();
-
-		// Pour pouvoir agir sur la fenÃªtre crÃ©Ã©e on associe le stage au controleur de gestion des produits
 		creeEtAfficheFenetreAjoutStagiaire(rootPane);
 	}
-
 	private void creeEtAfficheFenetreAjoutStagiaire(Pane rootPane) {
 		Scene scene = new Scene(rootPane, rootPane.getPrefWidth(), rootPane.getPrefHeight());
 		Stage ajoutStagiaireStage = new Stage();
@@ -213,6 +176,58 @@ public class AccueilPrincipalControleur implements Initializable {
 		ajoutStagiaireStage.setScene(scene);
 		ajoutStagiaireStage.show();
 	}
+
+	private void modifierLine() {
+		// TODO MODIFIER LA LIGNE
+		//selection de la ligne
+		//ajouter fenetre (ajoutstagiaire) de création stagiaire
+		//champ prérempli
+		//modifier et accepter
+		//mette à jour liste stagiaire tableau refresh
+		Stagiaire stagiaire = stagiairesTable.getSelectionModel().getSelectedItem();
+		if(stagiaire != null) {
+			try {
+				afficherFenetreAjoutStagiaire();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+			
+
+
+			stagiairesTable.refresh();
+		}
+
+	}
+
+	private void supprimerLine() {
+		// TODO SUPPRIMER LA LIGNE
+		//selection de la ligne
+		//supprimer tous les champs et ligne complete (attention suppr noeud binaire?)
+		//mettre à jour la liste tableau refresh
+		Stagiaire stagiaire = stagiairesTable.getSelectionModel().getSelectedItem();
+		if(stagiaire != null) {
+			listeDynamiqueStagiaires.remove(stagiaire);
+			stagiairesTable.refresh();
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Suppression d'un produit");
+			alert.setHeaderText("Veuillez sÃ©lectionner un produit Ã  supprimer");
+			alert.show();
+		}
+	}
+
+	private void imprimerListeFiltree() {
+		// TODO : Faire la méthode exporter en PDF
+		//		MeessageFormat header = new MessageFormat("Liste des Stagiaires :");
+		//		MessageFormat footer = new MessageFormat("Page{0,number,integer}");
+		//		try {
+		//			listeDynamiqueStagiaires.print(JTable.PrintMode.NORMAL, header, footer);
+		//			
+		//		}catch(java.awt.print.PrinterException e) {
+		//			System.err.format("Erreur d'impression ",  e.getMessage());
+		//		}
+	}
+
 
 	@FXML
 	public void resetAll() {
@@ -222,23 +237,17 @@ public class AccueilPrincipalControleur implements Initializable {
 		this.anneeRechercheBtn.clear();
 		System.out.println("all clear");
 	}
-	
 	@FXML
 	public void goToLogin() throws IOException {
-		// TODO Auto-generated method stub
-		//Stage stage = (Stage) retour.getScene.getWindow(); 
-		//stage.close(); 
 		System.out.println("retour vers Login");
 		primaryStage.hide();
 		vueAccueil.afficher();
 	}
-	
 	@FXML
 	public void closeWindow() {
 		Platform.exit();
 		System.out.println("application quitté");
 	}
-
 
 	@SuppressWarnings("unchecked")
 	private void initStagiairesTable() {
@@ -259,24 +268,18 @@ public class AccueilPrincipalControleur implements Initializable {
 		anneeCol.setCellValueFactory(new PropertyValueFactory<>("annee"));
 
 		listeDynamiqueStagiaires = FXCollections.observableArrayList(this.modeleGlobalStagiaires.getStagiaires());
-		//		stagiairesTable.setItems(listeDynamiqueStagiaires);
+		stagiairesTable.setItems(listeDynamiqueStagiaires);
 	}
 	public void mettreAJourModele(Stagiaire stagiaire) {
-		// TODO Auto-generated method stub
 		modeleGlobalStagiaires.ajouterUnStagiaire(stagiaire);
 	}
 	public void mettreAJourTable(Stagiaire stagiaire) {
-		// On ajout le stagiaire Ã  la liste de la table
 		listeDynamiqueStagiaires.add(stagiaire);
-
-		// On demande un refresh de la TableView
 		stagiairesTable.refresh();
 
 
 
 	}
-
-
 
 	public void setStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;

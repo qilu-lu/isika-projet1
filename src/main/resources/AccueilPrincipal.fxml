@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -7,7 +9,8 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="845.0" prefWidth="1284.0" style="-fx-background-color: 0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView fx:id="stagiairesTable" layoutY="125.0" prefHeight="713.0" prefWidth="831.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#048b9a" height="317.0" layoutX="-2.0" layoutY="147.0" stroke="BLACK" strokeType="INSIDE" width="1291.0" />
+      <TableView fx:id="stagiairesTable" layoutY="185.0" prefHeight="653.0" prefWidth="831.0">
         <columns>
           <TableColumn fx:id="nom" prefWidth="247.0" text="Nom" />
           <TableColumn fx:id="prenom" minWidth="0.0" prefWidth="215.0" text="Prenom" />
@@ -17,7 +20,7 @@
         </columns>
       </TableView>
       <Button fx:id="quitBtn" layoutX="1128.0" layoutY="784.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="112.0" text="Quitter" />
-      <Button fx:id="decoBtn" layoutX="1128.0" layoutY="728.0" mnemonicParsing="false" text="Déconnection" />
+      <Button fx:id="decoBtn" layoutX="1138.0" layoutY="50.0" mnemonicParsing="false" text="Déconnection" />
       <MenuBar prefHeight="32.0" prefWidth="1284.0">
         <menus>
           <Menu mnemonicParsing="false" text="Application">
@@ -29,23 +32,31 @@
           <Menu mnemonicParsing="false" text="Gestion Stagiaire">
             <items>
               <MenuItem fx:id="ajoutMenuBtn" mnemonicParsing="false" text="Ajouter" />
+                  <MenuItem fx:id="exporterEnPdfMenuBtn" mnemonicParsing="false" text="Exporter en PDF" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
-      <Button fx:id="ajoutBtn" layoutX="853.0" layoutY="125.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="94.0" text="Ajouter " />
-      <Button fx:id="modifBtn" layoutX="853.0" layoutY="187.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="94.0" text="Modifier" />
-      <Button fx:id="supprBtn" layoutX="853.0" layoutY="252.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="94.0" text="Supprimer" />
-      <Label layoutX="22.0" layoutY="44.0" text="Bienvenue" />
-      <Button fx:id="rechercheBtn" layoutX="853.0" layoutY="549.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="160.0" text="Recherche Avancée" />
-      <Label alignment="CENTER_RIGHT" layoutX="857.0" layoutY="343.0" prefHeight="21.0" prefWidth="87.0" text="Nom" />
-      <Label alignment="CENTER_RIGHT" layoutX="857.0" layoutY="387.0" text="Département" />
-      <Label alignment="CENTER_RIGHT" layoutX="857.0" layoutY="435.0" prefHeight="21.0" prefWidth="87.0" text="Promotion" />
-      <Label alignment="CENTER_RIGHT" layoutX="857.0" layoutY="488.0" prefHeight="21.0" prefWidth="87.0" text="Année" />
-      <TextField fx:id="nomRechercheTextField" layoutX="982.0" layoutY="338.0" />
-      <TextField fx:id="departementRechercheBtn" layoutX="1067.0" layoutY="382.0" prefHeight="31.0" prefWidth="101.0" />
-      <TextField fx:id="promotionRechercheBtn" layoutX="1067.0" layoutY="430.0" prefHeight="31.0" prefWidth="101.0" />
-      <TextField fx:id="anneeRechercheBtn" layoutX="1067.0" layoutY="483.0" prefHeight="31.0" prefWidth="101.0" />
-      <Button fx:id="resetBtn" layoutX="1071.0" layoutY="549.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="94.0" text="Reset" />
+      <Button fx:id="ajoutBtn" layoutX="854.0" layoutY="512.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="94.0" text="Ajouter " />
+      <Button fx:id="modifBtn" layoutX="854.0" layoutY="567.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="94.0" text="Modifier" />
+      <Button fx:id="supprBtn" layoutX="854.0" layoutY="620.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="94.0" text="Supprimer" />
+      <Button fx:id="rechercheBtn" layoutX="853.0" layoutY="398.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="160.0" text="Recherche Avancée" />
+      <Label alignment="CENTER_RIGHT" layoutX="857.0" layoutY="192.0" prefHeight="21.0" prefWidth="87.0" text="Nom" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Label>
+      <Label alignment="CENTER_RIGHT" layoutX="857.0" layoutY="236.0" text="Département" textFill="WHITE" />
+      <Label alignment="CENTER_RIGHT" layoutX="857.0" layoutY="284.0" prefHeight="21.0" prefWidth="87.0" text="Promotion" textFill="WHITE" />
+      <Label alignment="CENTER_RIGHT" layoutX="857.0" layoutY="337.0" prefHeight="21.0" prefWidth="87.0" text="Année" textFill="WHITE" />
+      <TextField fx:id="nomRechercheTextField" layoutX="982.0" layoutY="187.0" />
+      <TextField fx:id="departementRechercheBtn" layoutX="1067.0" layoutY="231.0" prefHeight="31.0" prefWidth="101.0" />
+      <TextField fx:id="promotionRechercheBtn" layoutX="1067.0" layoutY="279.0" prefHeight="31.0" prefWidth="101.0" />
+      <TextField fx:id="anneeRechercheBtn" layoutX="1067.0" layoutY="332.0" prefHeight="31.0" prefWidth="101.0" />
+      <Button fx:id="resetBtn" layoutX="1071.0" layoutY="398.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="94.0" text="Reset" />
+      <ImageView fitHeight="112.0" fitWidth="186.0" layoutX="14.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="logo.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
