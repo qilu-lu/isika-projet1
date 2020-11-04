@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javax.swing.JTable;
-
+import application.Data;
+import application.models.ArbreBinaireModel;
 import application.models.Stagiaire;
 import application.models.StagiairesModel;
 import javafx.application.Platform;
@@ -18,12 +18,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -268,8 +268,16 @@ public class AccueilPrincipalControleur implements Initializable {
 		departementCol.setCellValueFactory(new PropertyValueFactory<>("departement"));
 		promotionCol.setCellValueFactory(new PropertyValueFactory<>("promotion"));
 		anneeCol.setCellValueFactory(new PropertyValueFactory<>("annee"));
+		
+		listeDynamiqueStagiaires= FXCollections.observableArrayList();
+		
+		for (int i=0;i<Data.getInstance().getArbreStagiaire().getSize();i++) {
+			 listeDynamiqueStagiaires.add(Data.getInstance().getArbreStagiaire().get(i));
+		}
+		
+		//Data.getInstance().getListeStagiaires().forEach(listeDynamiqueStagiaires::add);
 
-		listeDynamiqueStagiaires = FXCollections.observableArrayList(this.modeleGlobalStagiaires.getStagiaires());
+		//listeDynamiqueStagiaires = FXCollections.observableArrayList(this.modeleGlobalStagiaires.getStagiaires());
 		stagiairesTable.setItems(listeDynamiqueStagiaires);
 	}
 	public void mettreAJourModele(Stagiaire stagiaire) {
