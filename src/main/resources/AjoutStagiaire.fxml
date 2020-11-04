@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="513.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="ajoutBtn" layoutX="92.0" layoutY="402.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="72.0" text="Ajouter" />
+      <Button fx:id="resetBtn" layoutX="209.0" layoutY="402.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="72.0" text="Reset" />
+      <Button fx:id="annulBtn" layoutX="333.0" layoutY="402.0" mnemonicParsing="false" text="Annuler" />
+      <Label alignment="CENTER_RIGHT" layoutX="56.0" layoutY="64.0" prefHeight="21.0" prefWidth="184.0" text="Nom" />
+      <Label alignment="CENTER_RIGHT" layoutX="56.0" layoutY="129.0" prefHeight="21.0" prefWidth="184.0" text="Prénom" />
+      <Label alignment="CENTER_RIGHT" layoutX="56.0" layoutY="189.0" prefHeight="21.0" prefWidth="184.0" text="Département" />
+      <Label alignment="CENTER_RIGHT" layoutX="56.0" layoutY="252.0" prefHeight="21.0" prefWidth="184.0" text="Promotion" />
+      <Label alignment="CENTER_RIGHT" layoutX="57.0" layoutY="327.0" text="Année d'entrée en formation" />
+      <Label layoutX="130.0" layoutY="14.0" text="AJOUT D'UN STAGIAIRE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nomStTextField" layoutX="276.0" layoutY="59.0" />
+      <TextField fx:id="prenomStTextField" layoutX="275.0" layoutY="124.0" />
+      <TextField fx:id="departementStTextField" layoutX="275.0" layoutY="184.0" />
+      <TextField fx:id="promoStTextField" layoutX="276.0" layoutY="247.0" />
+      <TextField fx:id="anneeStTextField" layoutX="276.0" layoutY="322.0" />
+   </children>
+</Pane>
