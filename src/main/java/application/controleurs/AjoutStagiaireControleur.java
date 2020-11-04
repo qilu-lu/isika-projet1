@@ -74,10 +74,16 @@ public class AjoutStagiaireControleur implements Initializable {
 			stagiaire.setDepartement(departementStTextField.getText());
 			stagiaire.setPromotion(promoStTextField.getText());
 			stagiaire.setAnnee(Integer.valueOf(anneeStTextField.getText()));
-
-			vueAjoutStagiaire.mettreAJourModele(stagiaire);
+			
+			//arbreStagiaires.ajoutNouveauNoeud(stagiaire);
+			//
+			
+			vueAjoutStagiaire.mettreAJourTable(stagiaire);
+			//TODO récupération des données du nouveau stagiaire dans l'arbre
+			
 
 			closeStage();
+			
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setHeaderText("Erreurs de saisie : ");
