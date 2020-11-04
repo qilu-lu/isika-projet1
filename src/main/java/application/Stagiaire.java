@@ -1,11 +1,21 @@
 package application;
 
 public class Stagiaire implements Comparable<Stagiaire> {
-	private String nom;
-	private String prenom;
-	private String departement;
-	private String promotion;
+	
+	public static int RecordSize=166;//chaque strgiaire dois avoir 166 octets
+	private String nom="";
+	private String prenom="";
+	private String departement="";
+	private String promotion="";
 	private int annee;
+	
+	 public static int NomSize=42;
+	 public static int PrenomSize=36;
+	 public static int DepartementSize=4;
+	 public static int PromotionSize=10;
+	 
+	 
+	 
 	
 	public String getNom() {
 		return nom;
@@ -49,12 +59,30 @@ public class Stagiaire implements Comparable<Stagiaire> {
 
 	@Override
 	public int compareTo(Stagiaire o) {
-	int result=this.getNom().compareTo(o.getNom());
+		int result=0;
+		if(!this.nom.equals(o.getNom())) {
+			result=this.getNom().compareTo(o.getNom());
+		}
+		else {
+			if(!this.prenom.equals(o.getPrenom()))
+			result=this.getPrenom().compareTo(o.getPrenom());
+			else {
+				if(!this.departement.equals(o.getdepartement()))
+				result=this.getdepartement().compareTo(o.getdepartement());
+				else {
+					if(!this.promotion.equals(o.getPromotion()));
+					result=this.promotion.compareTo(o.getPromotion());
+//					else {
+//						
+//					}
+				}
+			}
+		}
 	
 		return result;
 	}
 
-	public Stagiaire() {
+	public Stagiaire(String nom2, String prenom2, String departement2, int annee2) {
 		super();
 	}
 
@@ -62,6 +90,10 @@ public class Stagiaire implements Comparable<Stagiaire> {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
+	}
+
+	public Stagiaire() {
+		super();
 	}
 
 	@Override

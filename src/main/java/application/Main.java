@@ -1,13 +1,18 @@
 package application;
 
 import java.io.BufferedReader;
+import java.io.DataInput;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -29,107 +34,126 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) throws IOException {
-		readStagiaireFromFile();
+		// 166 pour cheque stagiaire
+		List<Stagiaire> l = ReadFile.readStagiaireFromFile();
+		List<Stagiaire> s = ReadFile.remplir(l);
+		ArbreStagiaire1<Stagiaire> arbre = new ArbreStagiaire1<Stagiaire>();
 
-//		// br.read();
-//		ArbreStagiaire1<Stagiaire> arbre = new ArbreStagiaire1<Stagiaire>();
-//		Stagiaire s1 = new Stagiaire("APC", "Pre");
-//		Stagiaire s2 = new Stagiaire("BCZZD", "Pre");
-//		Stagiaire s3 = new Stagiaire("mmmD", "Pre");
-//		Stagiaire s4 = new Stagiaire("zewe", "Pre");
-//		Stagiaire s5 = new Stagiaire("z", "Pre");
-//		arbre.ajouterNoeud(s1);
-//		arbre.ajouterNoeud(s2);
-//		arbre.ajouterNoeud(s3);
-//		arbre.ajouterNoeud(s4);
-//		arbre.ajouterNoeud(s5);
-//		arbre.infixe(arbre.getRacine());
-//		arbre.supprimer(arbre.getRacine(), s1);
-//		System.out.println();
-//		arbre.infixe(arbre.getRacine());
-//		arbre.recherche(arbre.getRacine(), s1);
-
-		launch(args);
-
-		// ArbreStagiaire1<Stagiaire> s = new ArbreStagiaire1<>();
-		// s.ajouterNoeud(new Stagiaire());
-	}
-
-	private static List<Stagiaire> readStagiaireFromFile() {
-		File file = new File(Main.class.getClassLoader().getResource("STAGIAIRES.DON").getFile());
-
-		BufferedReader bufferedReader = null;
-		LineNumberReader ligneCourante = null;
-
-		List<Stagiaire> listeStagiaire = new ArrayList<Stagiaire>();
-
-		try {
-			FileReader fileReader = new FileReader(file);
-			bufferedReader = new BufferedReader(fileReader);
-			ligneCourante = new LineNumberReader(fileReader);
-			int numero = 0;
-			String line;
-
-			Stagiaire st = new Stagiaire();
-
-			while (bufferedReader.ready()) { // tant que la ligne suivante existe
-
-				// Stagiaire st = new Stagiaire();
-				line = ligneCourante.readLine();
-				numero++;
-
-				if (numero % 6 == 1) {
-					st.setNom(line);
-				}
-
-				if (numero % 6 == 2) {
-					st.setPrenom(line);
-				}
-				if (numero % 6 == 3) {
-					st.setDepartement(line);
-				}
-				if (numero % 6 == 4) {
-					st.setPromotion(line);
-				}
-				if (numero % 6 == 5) {
-					st.setAnnee(Integer.parseInt(line));
-				}
-				if (line.equals("*")) {
-					numero = 0;
-					listeStagiaire.add(st);
-					st = new Stagiaire();
-				}
-
-			}
-
-			for (Stagiaire stagiaire : listeStagiaire) {
-				System.out.println(stagiaire);
-			}
-			// }
-
-		} catch (FileNotFoundException e) {
-			// TODO: handle exception
-			System.out.println("Le fichier n'existe pas");
-		} catch (IOException e) {
-			System.out.println("Impossible de lire le contenu du fichier");
+		for (Stagiaire stagiaire : s) {
+			arbre.ajouterNoeud(stagiaire);
 		}
 
-		try {
-			bufferedReader.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Impossible de fermer le fichier");
-		} catch (NullPointerException e) {
-			System.out.println("Impossible d'ouvrir le fichier");
-		}
-		return listeStagiaire;
-	}
+		String FiltreNom = "PEREIRA";
+		String FiltreDepartement = null;
+		String FiltrePromotion = null;
+		Integer FiltreAnnee = null;
 
-//	public List<Stagiaire> rechercheParAnnee(int a) {
-//		List<Stagiaire> list = new ArrayList<>();
-//		for (Stagiaire stagiaire : list) {
-//
+		Predicate<Stagiaire> filter = e -> (FiltreNom == null || e.getNom().startsWith(FiltreNom))
+				&& (FiltreDepartement == null || e.getdepartement().startsWith(FiltreDepartement))
+				&& (FiltrePromotion == null || e.getPromotion().startsWith(FiltrePromotion))
+				&& (FiltreAnnee == null || e.getAnnee() == FiltreAnnee);
+
+		ArbreStagiaire1<Stagiaire> stagiaireFiltre = arbre.filter(filter);
+
+		for (int i = 0; i < stagiaireFiltre.size; i++) {
+			System.out.println(stagiaireFiltre.get(stagiaireFiltre.getRacine(), i));
+		}
+
+		// List<Stagiaire> l = ReadFile.readStagiaireFromFile();
+		// System.out.println(ReadFile.calculerTailleNom(ReadFile.remplir(l)));
+		// System.out.println(ReadFile.calculerTaillePreNom(l));
+		// System.out.println(ReadFile.calculerTailleDepartement(l));
+		// System.out.println(ReadFile.calculerTailleDepartement1(l));
+		// System.out.println(ReadFile.calculerTaillePromotion(l));
+		// List<Stagiaire> s = ReadFile.remplir(l);
+//aligner les stagiaires
+//		for (Stagiaire stagiaire : s) {
+//			System.out.println(stagiaire.getNom() + stagiaire.getNom().length());
+//			for (int i = 0; i < stagiaire.getNom().length(); i++) {
+//			System.out.println(stagiaire.getNom().codePointAt(i) + "=>" + stagiaire.getNom().charAt(i));
 //		}
-//	}
+//			System.out.println(stagiaire);
+//		}
+//		
+//		ArbreStagiaire1<Stagiaire> arbre = new ArbreStagiaire1<Stagiaire>();
+//		for (Stagiaire stagiaire : s) {
+//			arbre.ajouterNoeud(stagiaire);
+//		}
+		// System.out.println(arbre.getsize());
+		// System.out.println(arbre.getRacine());
+		// arbre.infixe(arbre.getRacine());
+
+//		for (int i = 0; i < arbre.getsize(); i++) {
+//			System.out.println(arbre.get(arbre.getRacine(), i)+" "+i);
+//		}
+		DataOutputStream out = new DataOutputStream(new FileOutputStream("FileBin.bin"));
+
+		for (int i = 0; i < arbre.getsize(); i++) {
+			writeStr(out, arbre.get(arbre.getRacine(), i));
+			out.writeBytes("\n");
+		}
+		out.flush();
+		out.close();
+
+		RandomAccessFile in = new RandomAccessFile("FileBin.bin", "r");
+		int len = (int) (in.length() / Stagiaire.RecordSize);
+
+//		for (long i = 0; i < len; i++) {
+//			in.seek(i * Stagiaire.RecordSize);
+//
+//			Stagiaire str = readStagiaire(in);
+//			System.out.println(str.toString());
+//		}
+		System.out.println();
+		launch(args);
+	}
+
+	private static void writeStr(DataOutputStream out, Stagiaire s) throws IOException {
+		writeString(s.getNom(), Stagiaire.NomSize, out);
+		writeString(s.getPrenom(), Stagiaire.PrenomSize, out);
+		writeString(s.getdepartement(), Stagiaire.DepartementSize, out);
+		writeString(s.getPromotion(), Stagiaire.PromotionSize, out);
+		out.write(s.getAnnee());
+
+	}
+
+	private static void writeString(String nom, int size, DataOutputStream out) throws IOException {
+		for (int i = 0; i < size; i++) {
+			char c = 0;
+			if (i < nom.length()) {
+				c = nom.charAt(i);
+			}
+			out.writeChar(c);
+		}
+
+	}
+
+	private static Stagiaire readStagiaire(DataInput in) throws IOException {
+		String nom = readString(Stagiaire.NomSize, in);
+		String prenom = readString(Stagiaire.PrenomSize, in);
+		String departement = readString(Stagiaire.DepartementSize, in);
+		String promotion = readString(Stagiaire.PromotionSize, in);
+		int annee = in.readInt();
+
+		return new Stagiaire(nom, prenom, departement, annee);
+	}
+
+	private static String readString(int size, DataInput in) throws IOException {
+
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < size; i++) {
+			char c = in.readChar();
+
+			if (c == 0) {
+				continue;
+			} else {
+				sb.append(c);
+			}
+		}
+
+		return sb.toString();
+
+	}
 
 }
