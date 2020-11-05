@@ -90,7 +90,7 @@ public class LoginControleur implements Initializable {
 
 		Scene scene = new Scene(rootPane, rootPane.getPrefWidth(), rootPane.getPrefHeight());
 		Stage ajoutNouvelUtilisateurStage = new Stage();
-		ajoutNouvelUtilisateurStage.setTitle("Ajout d'un nouvel utilisateur");
+		ajoutNouvelUtilisateurStage.setTitle("Nouvel utilisateur");
 		ajoutNouvelUtilisateurStage.setScene(scene);
 		ajoutNouvelUtilisateurStage.show();
 	}

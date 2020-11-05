@@ -30,6 +30,7 @@ import javafx.stage.Stage;
 
 public class AccueilPrincipalControleur implements Initializable {
 	private static final String VUE_AJOUT_STAGIAIRE_VIEW_PATH = "AjoutStagiaire.fxml";
+	private static final String VUE_MODIFICATION_STAGIAIRE_VIEW_PATH = "ModificationStagiaire.fxml";
 
 	private static final int INDEX_COLONNE_NOM = 0;
 	private static final int INDEX_COLONNE_PRENOM = 1;
@@ -58,7 +59,7 @@ public class AccueilPrincipalControleur implements Initializable {
 	@FXML
 	private Button quitBtn;
 	@FXML
-	private Button decoBtn;
+	private TextField nbrStagiaireTextField;
 	@FXML
 	private TextField nomRechercheTextField;
 	@FXML
@@ -86,8 +87,12 @@ public class AccueilPrincipalControleur implements Initializable {
 
 	private LoginControleur vueAccueil;
 	private Stage primaryStage;
+	private AjoutStagiaireControleur ajoutStagiaireControleur;
+	private ModificationStagiaireControleur modificationStagiaireControleur;
+	private ArbreBinaireModel<Stagiaire> arbreBinaireModel;
 
 	public AccueilPrincipalControleur(LoginControleur vueAccueil) {
+		this.arbreBinaireModel = new ArbreBinaireModel<Stagiaire>();
 		this.vueAccueil = vueAccueil;
 	}
 
@@ -100,6 +105,7 @@ public class AccueilPrincipalControleur implements Initializable {
 
 		modeleGlobalStagiaires = new StagiairesModel();
 		initStagiairesTable();
+		mettreAJourNbrStagiaire();
 
 		EventHandler<ActionEvent> ajout = new EventHandler<ActionEvent>() {
 			@Override
@@ -134,7 +140,6 @@ public class AccueilPrincipalControleur implements Initializable {
 			}
 		};
 		decoMenuBtn.setOnAction(deco);
-		decoBtn.setOnAction(deco);
 
 		resetBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -145,7 +150,15 @@ public class AccueilPrincipalControleur implements Initializable {
 		modifBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				modifierLine();
+				Stagiaire stagiaire = stagiairesTable.getSelectionModel().getSelectedItem();
+				if(stagiaire != null) {
+					try {
+						afficherFenetreModificationStagiaire();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
 		});
 		supprBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -160,45 +173,80 @@ public class AccueilPrincipalControleur implements Initializable {
 				imprimerListeFiltree();
 			}
 		});
+		nbrStagiaireTextField.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				mettreAJourNbrStagiaire();
+			}
+		});
 	}
 
+	private void mettreAJourNbrStagiaire() {
+		int totalLigneStagiaire = listeDynamiqueStagiaires.size();
+		nbrStagiaireTextField.setText(String.valueOf(totalLigneStagiaire));
+	}
+
+	public void afficherFenetreModificationStagiaire() throws IOException {
+		modificationStagiaireControleur = new ModificationStagiaireControleur(this);
+		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(VUE_MODIFICATION_STAGIAIRE_VIEW_PATH));
+		loader.setController(modificationStagiaireControleur);
+		Pane rootPane = loader.load();
+		Stage stage = afficherFenetre(rootPane, "Modification");
+		modificationStagiaireControleur.setStage(stage);
+	}
 
 	public void afficherFenetreAjoutStagiaire() throws IOException { 
+		ajoutStagiaireControleur = new AjoutStagiaireControleur(this);
+		
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(VUE_AJOUT_STAGIAIRE_VIEW_PATH));
-		loader.setController(this);
+		loader.setController(ajoutStagiaireControleur);
 		Pane rootPane = loader.load();
-		creeEtAfficheFenetreAjoutStagiaire(rootPane);
+		Stage stage = afficherFenetre(rootPane, "Nouveau Stagiaire");
+		ajoutStagiaireControleur.setStage(stage);
 	}
-	private void creeEtAfficheFenetreAjoutStagiaire(Pane rootPane) {
+	
+	private Stage afficherFenetre(Pane rootPane, String title) {
 		Scene scene = new Scene(rootPane, rootPane.getPrefWidth(), rootPane.getPrefHeight());
-		Stage ajoutStagiaireStage = new Stage();
-		ajoutStagiaireStage.setTitle("Ajout d'un nouveau Stagiaire");
-		ajoutStagiaireStage.setScene(scene);
-		ajoutStagiaireStage.show();
+		Stage stage = new Stage();
+		stage.setTitle(title);
+		stage.setScene(scene);
+		stage.show();
+		return stage;
 	}
-
-	private void modifierLine() {
-		// TODO MODIFIER LA LIGNE
-		//TODO Modifier dans l'arbre
-		//selection de la ligne
-		//ajouter fenetre (ajoutstagiaire) de cr�ation stagiaire
-		//champ prérempli
-		//modifier et accepter
-		//mettre à jour liste stagiaire tableau refresh
-		Stagiaire stagiaire = stagiairesTable.getSelectionModel().getSelectedItem();
-		if(stagiaire != null) {
-			try {
-				afficherFenetreAjoutStagiaire();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} 
-			
-
-
-			stagiairesTable.refresh();
-		}
-
+	
+	public void ajouterStagaireDansArbre(Stagiaire stagiaire) {
+		this.arbreBinaireModel.ajouterNoeud(stagiaire);
+		mettreAJourTable(stagiaire);
 	}
+	
+//	private void creeEtAfficheFenetreAjoutStagiaire(Pane rootPane) {
+//		Scene scene = new Scene(rootPane, rootPane.getPrefWidth(), rootPane.getPrefHeight());
+//		Stage ajoutStagiaireStage = new Stage();
+//		ajoutStagiaireStage.setTitle("Nouveau Stagiaire");
+//		ajoutStagiaireStage.setScene(scene);
+//		ajoutStagiaireStage.show();
+//	}
+
+//	private void modifierLine() {
+//		// TODO MODIFIER LA LIGNE
+//		//TODO Modifier dans l'arbre
+//		//selection de la ligne
+//		//ajouter fenetre (ajoutstagiaire) de cr�ation stagiaire
+//		//champ prérempli
+//		//modifier et accepter
+//		//mettre à jour liste stagiaire tableau refresh
+//		Stagiaire stagiaire = stagiairesTable.getSelectionModel().getSelectedItem();
+//		if(stagiaire != null) {
+//			try {
+//				afficherFenetreAjoutStagiaire();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			} 
+//
+//			stagiairesTable.refresh();
+//		}
+//
+//	}
 
 	private void supprimerLine() {
 		// TODO SUPPRIMER LA LIGNE
@@ -268,27 +316,26 @@ public class AccueilPrincipalControleur implements Initializable {
 		departementCol.setCellValueFactory(new PropertyValueFactory<>("departement"));
 		promotionCol.setCellValueFactory(new PropertyValueFactory<>("promotion"));
 		anneeCol.setCellValueFactory(new PropertyValueFactory<>("annee"));
-		
+
 		listeDynamiqueStagiaires= FXCollections.observableArrayList();
-		
+
 		for (int i=0;i<Data.getInstance().getArbreStagiaire().getSize();i++) {
-			 listeDynamiqueStagiaires.add(Data.getInstance().getArbreStagiaire().get(i));
+			listeDynamiqueStagiaires.add(Data.getInstance().getArbreStagiaire().get(i));
 		}
-		
+
 		//Data.getInstance().getListeStagiaires().forEach(listeDynamiqueStagiaires::add);
 
 		//listeDynamiqueStagiaires = FXCollections.observableArrayList(this.modeleGlobalStagiaires.getStagiaires());
 		stagiairesTable.setItems(listeDynamiqueStagiaires);
 	}
+	
 	public void mettreAJourModele(Stagiaire stagiaire) {
 		modeleGlobalStagiaires.ajouterUnStagiaire(stagiaire);
 	}
-	public void mettreAJourTable(Stagiaire stagiaire) {
+	
+	private void mettreAJourTable(Stagiaire stagiaire) {
 		listeDynamiqueStagiaires.add(stagiaire);
 		stagiairesTable.refresh();
-
-
-
 	}
 
 	public void setStage(Stage primaryStage) {

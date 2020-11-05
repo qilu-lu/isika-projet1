@@ -30,7 +30,7 @@ public class LanceurTestFXProjet1 extends Application {
 			loader.setController(controleur);
 			Pane root = loader.load();
 			Scene scene = new Scene(root, root.getPrefWidth(), root.getPrefHeight());
-			//scene.getStylesheets().add(getClass().getClassLoader().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getClassLoader().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			controleur.setStage(primaryStage);
