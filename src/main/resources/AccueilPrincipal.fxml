@@ -13,7 +13,7 @@
       <TableView fx:id="stagiairesTable" layoutY="185.0" prefHeight="653.0" prefWidth="831.0">
         <columns>
           <TableColumn fx:id="nom" prefWidth="247.0" text="Nom" />
-          <TableColumn fx:id="prenom" minWidth="0.0" prefWidth="215.0" text="Prenom" />
+          <TableColumn fx:id="prenom" minWidth="0.0" prefWidth="215.0" text="Prénom" />
             <TableColumn fx:id="departement" prefWidth="116.0" text="Département" />
             <TableColumn fx:id="promotion" prefWidth="133.0" text="Promotion" />
             <TableColumn fx:id="annee" prefWidth="119.0" text="Année" />

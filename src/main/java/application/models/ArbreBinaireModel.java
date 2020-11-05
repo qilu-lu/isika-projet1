@@ -32,7 +32,7 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 		}
 
 	}
-	private List<E> listeStagiaires=new ArrayList<>();
+
 	private Noeud<E> racine;
 	private int size;
 
@@ -163,7 +163,7 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 	private E get(Noeud<E> r, int pos) {	
 		if (r != null) {
 			if (r.iD == pos)
-				return r.stagiaire;			
+				return r.stagiaire;		
 			E e = get(r.gauche, pos);
 			if (e != null) {
 				return e;
@@ -178,14 +178,12 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 	}
 
 	// parcours infixe
-	public List<E> infixe(Noeud<E> r) {
+	public void infixe(Noeud<E> r) {
 		if (r != null) {
 			infixe(r.gauche);
-			listeStagiaires.add(r.stagiaire);
-//			System.out.println(r.stagiaire.toString() +"\n");
+			System.out.println(r.stagiaire.toString() +"\n");
 			infixe(r.droit);
 		}
-		return listeStagiaires;
 	}
 	
 //	public void infixe(Noeud<E> r) {
