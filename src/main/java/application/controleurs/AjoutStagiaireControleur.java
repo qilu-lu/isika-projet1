@@ -41,6 +41,10 @@ public class AjoutStagiaireControleur implements Initializable {
 		this.vueAjoutStagiaire = vueAjoutStagiaire;
 	}
 
+	public AccueilPrincipalControleur getVueAjoutStagiaire() {
+		return vueAjoutStagiaire;
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -53,7 +57,7 @@ public class AjoutStagiaireControleur implements Initializable {
 		resetStBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				resetAll();
+				reset();
 			}
 		});
 		ajoutStBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -79,8 +83,8 @@ public class AjoutStagiaireControleur implements Initializable {
 			//arbreStagiaires.ajoutNouveauNoeud(stagiaire);
 			//
 			
-			vueAjoutStagiaire.mettreAJourTable(stagiaire);
-			
+//			vueAjoutStagiaire.mettreAJourTable(stagiaire);
+			vueAjoutStagiaire.ajouterStagaireDansArbre(stagiaire);
 
 			closeStage();
 			
@@ -96,7 +100,7 @@ public class AjoutStagiaireControleur implements Initializable {
 		ajoutStagiaireStage.close();
 	}
 	@FXML
-	public void resetAll() {
+	public void reset() {
 		this.nomStTextField.clear();
 		this.prenomStTextField.clear();
 		this.departementStTextField.clear();
@@ -104,12 +108,13 @@ public class AjoutStagiaireControleur implements Initializable {
 		this.anneeStTextField.clear();
 		System.out.println("all clear");
 	}
+	
 	@FXML
 	public void returnToAccueilPrincipal() {
 //		Stage stage = (Stage) annulStBtn.getScene().getWindow(); 
 //		stage.close(); 
 		System.out.println("retour vers Accueil Principal");
-		ajoutStagiaireStage.hide();
+		this.ajoutStagiaireStage.hide();
 	}
 
 	private String validerSaisie() {
@@ -151,6 +156,10 @@ public class AjoutStagiaireControleur implements Initializable {
 			}
 		}
 		return errorsBuilder.toString();
+	}
+
+	public void setStage(Stage stage) {
+		ajoutStagiaireStage = stage;
 	}
 
 

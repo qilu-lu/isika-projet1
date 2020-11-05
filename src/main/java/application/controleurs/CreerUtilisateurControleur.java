@@ -155,7 +155,7 @@ public class CreerUtilisateurControleur implements Initializable {
 	public void precedent() {
 		afficherListeUser(utilisateurList, "Liste des utilisateurs");
 		Stage stage = (Stage) retour.getScene().getWindow(); 
-		stage.close(); 
+		stage.hide(); 
 		System.out.println("Fenetre nouvel utilisateur fermé");
 	}
 
