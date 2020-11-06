@@ -31,10 +31,8 @@ public class ModificationStagiaireControleur implements Initializable {
 	private Button resetStBtn;
 	@FXML
 	private Button modifStBtn;
-	
+	 
 	private AccueilPrincipalControleur vueModificationStagiaire;
-	private Stage modificationStagiaireStage;
-	private AccueilPrincipalControleur donneeStagiaire;
 	
 	public ModificationStagiaireControleur(AccueilPrincipalControleur vueModificationStagiaire) {
 		this.vueModificationStagiaire = vueModificationStagiaire;
@@ -47,10 +45,17 @@ public class ModificationStagiaireControleur implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-//		donneeStagiaire = new AccueilPrincipalControleur;
-//		String nom = donneeStagiaire.preRemplirChampsModification();
-//		nomStTextField.setText(nom);
-		
+		String nom = getvueModificationStagiaire().preRemplirChampsModificationNom();
+		nomStTextField.setText(nom);
+		String prenom = getvueModificationStagiaire().preRemplirChampsModificationPrenom();
+		prenomStTextField.setText(prenom);
+		String departement = getvueModificationStagiaire().preRemplirChampsModificationDepartement();
+		departementStTextField.setText(departement);
+		String promotion = getvueModificationStagiaire().preRemplirChampsModificationPromotion();
+		promoStTextField.setText(promotion);
+		String annee = getvueModificationStagiaire().preRemplirChampsModificationAnnee();
+		anneeStTextField.setText(annee);
+
 		annulStBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -71,6 +76,8 @@ public class ModificationStagiaireControleur implements Initializable {
 		});
 	}
 	
+	
+
 	@FXML
 	private void reset() {
 		this.nomStTextField.clear();
@@ -87,6 +94,5 @@ public class ModificationStagiaireControleur implements Initializable {
 	}
 
 	public void setStage(Stage stage) {
-		modificationStagiaireStage = stage;
 	}
 }
