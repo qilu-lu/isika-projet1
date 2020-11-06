@@ -1,11 +1,18 @@
 package application.controleurs;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+
+import application.controleurs.LoginControleur.User;
 import application.models.NouvelUtilisateurModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -106,7 +113,6 @@ public class CreerUtilisateurControleur implements Initializable {
 			utilisateurList.add(monUtilisateur);
 			resetAll();
 			System.out.println("Le profil a bien été enregistré" );
-			afficherListeUser(utilisateurList, "Liste des utilisateurs");
 			if(!alert.isShowing()) { 
 				Stage stage = (Stage) retour.getScene().getWindow(); 
 				stage.close(); 
@@ -131,14 +137,6 @@ public class CreerUtilisateurControleur implements Initializable {
 		if(!eMail.contains("@") && !eMail.contains(".")) throw new IOException("merci de fournir une adresse email valide");
 	}
 
-	public void afficherListeUser(List<NouvelUtilisateurModel> utilisateur, String titre) {
-		System.out.println(titre);
-		for (NouvelUtilisateurModel utilisateurList : utilisateur) {
-			System.out.println("[" + utilisateurList.getAdresseEmail()
-			+ "] ; ["
-			+ utilisateurList.getMdp() + "]");
-		}
-	}
 
 	@FXML
 	public void resetAll() {
@@ -153,7 +151,6 @@ public class CreerUtilisateurControleur implements Initializable {
 	}
 	@FXML
 	public void precedent() {
-		afficherListeUser(utilisateurList, "Liste des utilisateurs");
 		Stage stage = (Stage) retour.getScene().getWindow(); 
 		stage.hide(); 
 		System.out.println("Fenetre nouvel utilisateur fermé");
