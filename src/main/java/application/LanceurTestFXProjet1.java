@@ -92,6 +92,12 @@ public class LanceurTestFXProjet1 extends Application {
 //			System.out.print(listeStagiaires);
 			// listeStagiaires.forEach(stag -> System.out.println(stag));
 
+
+			// Data.getInstance().getListeStagiaires().add(arbreStagiaire.get(i));
+
+//			System.out.print(listeStagiaires);
+			// listeStagiaires.forEach(stag -> System.out.println(stag));
+
 			// for (int i = 0; i < arbreStagiaire.getSize(); i++) {
 			// lectureSeuleFichier(120 * i);
 			// }
@@ -122,15 +128,8 @@ public class LanceurTestFXProjet1 extends Application {
 	}
 
 	public void lectureSeuleFichier(long position) {
-<<<<<<< HEAD
 
 		// ArbreBinaireModel<Stagiaire> arbreStagiaireBin = new ArbreBinaireModel<>();
-
-=======
-
-		// ArbreBinaireModel<Stagiaire> arbreStagiaireBin = new ArbreBinaireModel<>();
-
->>>>>>> b8a4e28... lecteur binaire fini
 		// passer la position en argument
 
 		try (RandomAccessFile raf = new RandomAccessFile(
