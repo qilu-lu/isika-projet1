@@ -14,6 +14,16 @@ public class Stagiaire implements IEnregistrable<Stagiaire> {
 	private static final int POS_ACCES_NOEUD_GAUCHE = 12;
 	private static final int POS_ACCES_NOEUD_DROIT = 8;
 
+		
+	public Stagiaire(String nom, String prenom, String departement, String promotion, int annee) {
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.departement = departement;
+		this.promotion = promotion;
+		this.annee = annee;
+	}
+
 	public Stagiaire(String nom, String prenom, String departement, String promotion) {
 		super();
 		this.nom = nom;

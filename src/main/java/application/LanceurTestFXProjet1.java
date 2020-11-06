@@ -46,6 +46,7 @@ public class LanceurTestFXProjet1 extends Application {
 	public static void main(String[] args) {
 
 		LanceurTestFXProjet1 lanceur = new LanceurTestFXProjet1();
+		//création de ADMIN et de Formateur
 		launch(args);
 	}
 

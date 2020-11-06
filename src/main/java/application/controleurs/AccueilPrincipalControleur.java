@@ -1,8 +1,19 @@
 package application.controleurs;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import application.Data;
 import application.models.ArbreBinaireModel;
@@ -96,6 +107,10 @@ public class AccueilPrincipalControleur implements Initializable {
 		this.vueAccueil = vueAccueil;
 	}
 
+	public AccueilPrincipalControleur() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public LoginControleur getvueAccueil() {
 		return vueAccueil;
 	}
@@ -106,6 +121,8 @@ public class AccueilPrincipalControleur implements Initializable {
 		modeleGlobalStagiaires = new StagiairesModel();
 		initStagiairesTable();
 		mettreAJourNbrStagiaire();
+		
+		//
 
 		EventHandler<ActionEvent> ajout = new EventHandler<ActionEvent>() {
 			@Override
@@ -170,7 +187,15 @@ public class AccueilPrincipalControleur implements Initializable {
 		exporterEnPdfMenuBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				imprimerListeFiltree();
+				try {
+					imprimePdf(listeDynamiqueStagiaires);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (DocumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		nbrStagiaireTextField.setOnAction(new EventHandler<ActionEvent>() {
@@ -179,8 +204,25 @@ public class AccueilPrincipalControleur implements Initializable {
 				mettreAJourNbrStagiaire();
 			}
 		});
+		rechercheBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				rechercherStagiaire();
+			}
+		});
 	}
 
+	private void rechercherStagiaire() {
+//		if(nom.getText() == nomRechercheTextField.getText()) {
+//			
+//		}
+//		nomRechercheTextField.getText()
+//		departementTextField
+//		promotionTextField
+//		anneeTextField
+		
+	}
+	
 	private void mettreAJourNbrStagiaire() {
 		int totalLigneStagiaire = listeDynamiqueStagiaires.size();
 		nbrStagiaireTextField.setText(String.valueOf(totalLigneStagiaire));
@@ -266,8 +308,7 @@ public class AccueilPrincipalControleur implements Initializable {
 		}
 	}
 
-	private void imprimerListeFiltree() {
-		// TODO : Faire la m√©thode exporter en PDF
+		// TODO : Faire la m√©thode imprimer en PDF
 		//		MessageFormat header = new MessageFormat("Liste des Stagiaires :");
 		//		MessageFormat footer = new MessageFormat("Page{0,number,integer}");
 		//		try {
@@ -275,8 +316,40 @@ public class AccueilPrincipalControleur implements Initializable {
 		//			
 		//		}catch(java.awt.print.PrinterException e) {
 		//			System.err.format("Erreur d'impression ",  e.getMessage());
-		//		}
-	}
+	
+		private void imprimePdf(ObservableList<Stagiaire> stagiaires) throws DocumentException, FileNotFoundException {
+			//TODO VOIR POUR CHEMIN DANS DOSSIER
+			FileOutputStream fos = new FileOutputStream(new File("C:\\Users\\roman\\OneDrive\\Bureau\\ISIKA\\Test crÈation PDF\\liste.pdf"));
+			Document doc = new Document();
+			PdfWriter.getInstance(doc, fos);
+			doc.open();
+			doc.add(new Phrase("Liste des stagiaires\n"));
+			doc.add(new Phrase("Liste gÈnÈrÈe le " + LocalDate.now() + "\n"));
+			doc.add(new Phrase("- - - - - - - - - - - - - - - - - - - - - - - -"));
+			PdfPTable table = new PdfPTable(5);
+			PdfPCell cell = new PdfPCell(new Phrase("NOM"));
+			PdfPCell cell2 = new PdfPCell(new Phrase("PRENOM"));
+			PdfPCell cell3 = new PdfPCell(new Phrase("DEPARTEMENT"));
+			PdfPCell cell4 = new PdfPCell(new Phrase("PROMOTION"));
+			PdfPCell cell5 = new PdfPCell(new Phrase("ANNEE"));
+			// 1 ligne => header 
+			table.addCell(cell);
+			table.addCell(cell2);
+			table.addCell(cell3);
+			table.addCell(cell4);
+			table.addCell(cell5);
+			// n lignes suivantes
+			for(Stagiaire stagiaireTemp : stagiaires) {
+				table.addCell(new Phrase(stagiaireTemp.getNom()));
+				table.addCell(new Phrase(stagiaireTemp.getPrenom()));
+				table.addCell(new Phrase(stagiaireTemp.getDepartement()));
+				table.addCell(new Phrase(stagiaireTemp.getPromotion()));
+				//TODO n'affiche pas l'annÈe dans le tableau
+				table.addCell(new Phrase(stagiaireTemp.getAnnee()));
+			}
+			doc.add(table);
+			doc.close();
+		}
 
 
 	@FXML
@@ -321,6 +394,7 @@ public class AccueilPrincipalControleur implements Initializable {
 
 		for (int i=0;i<Data.getInstance().getArbreStagiaire().getSize();i++) {
 			listeDynamiqueStagiaires.add(Data.getInstance().getArbreStagiaire().get(i));
+			//TODO arbre ‡ afficher en infixe
 		}
 
 		//Data.getInstance().getListeStagiaires().forEach(listeDynamiqueStagiaires::add);
@@ -340,5 +414,14 @@ public class AccueilPrincipalControleur implements Initializable {
 
 	public void setStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;
+	}
+
+	public String preRemplirChampsModification() {
+			Stagiaire stagiaireModif = this.stagiairesTable.getSelectionModel().getSelectedItem();
+			String nom = stagiaireModif.getNom();
+			if(stagiaireModif != null) {
+			return nom;			
+		}
+			else return "blabla";
 	}
 }

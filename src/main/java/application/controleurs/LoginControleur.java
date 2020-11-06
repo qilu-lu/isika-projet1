@@ -117,7 +117,20 @@ public class LoginControleur implements Initializable {
 	@FXML
 	public void allerVersAccueilPrincipal() throws IOException {
 		//A FAIRE LOGIN OK CONNECTION
-
+/*
+ * Récupérer le code employé
+ * mettre un if (start with FR ...)
+ * dire si c'est un FR 
+ * il faut que les boutons modifier et supprimer grisé non clickable et ou la stagiaireTable non selectionnable
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+		
+		
+		
 		// login (email+mdp comparer à la list) OK
 		// comparer login si admin ou formateur
 		// remplacer fenetre par AccueilPrincipal (admin ou non) 
