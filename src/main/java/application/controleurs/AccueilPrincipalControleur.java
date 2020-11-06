@@ -214,6 +214,7 @@ public class AccueilPrincipalControleur implements Initializable {
 	}
 
 	private void rechercherStagiaire() {
+		
 		//		if(nom.getText() == nomRechercheTextField.getText()) {
 		//			
 		//		}
@@ -334,7 +335,7 @@ public class AccueilPrincipalControleur implements Initializable {
 		PdfPCell cell3 = new PdfPCell(new Phrase("DEPARTEMENT"));
 		PdfPCell cell4 = new PdfPCell(new Phrase("PROMOTION"));
 		PdfPCell cell5 = new PdfPCell(new Phrase("ANNEE"));
-		// 1 ligne => header 
+		// 1 ligne => header  
 		table.addCell(cell1);
 		table.addCell(cell2);
 		table.addCell(cell3);

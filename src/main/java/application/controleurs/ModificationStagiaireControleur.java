@@ -31,7 +31,7 @@ public class ModificationStagiaireControleur implements Initializable {
 	private Button resetStBtn;
 	@FXML
 	private Button modifStBtn;
-	
+	 
 	private AccueilPrincipalControleur vueModificationStagiaire;
 	
 	public ModificationStagiaireControleur(AccueilPrincipalControleur vueModificationStagiaire) {
