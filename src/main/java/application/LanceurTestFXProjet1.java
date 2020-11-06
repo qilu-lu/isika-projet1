@@ -44,6 +44,7 @@ public class LanceurTestFXProjet1 extends Application {
 	public static void main(String[] args) throws IOException {
 
 		LanceurTestFXProjet1 lanceur = new LanceurTestFXProjet1();
+
 		launch(args);
 	}
 
