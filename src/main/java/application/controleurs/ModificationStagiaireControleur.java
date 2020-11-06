@@ -3,11 +3,13 @@ package application.controleurs;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.models.Stagiaire;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -32,6 +34,7 @@ public class ModificationStagiaireControleur implements Initializable {
 	
 	private AccueilPrincipalControleur vueModificationStagiaire;
 	private Stage modificationStagiaireStage;
+	private AccueilPrincipalControleur donneeStagiaire;
 	
 	public ModificationStagiaireControleur(AccueilPrincipalControleur vueModificationStagiaire) {
 		this.vueModificationStagiaire = vueModificationStagiaire;
@@ -43,6 +46,11 @@ public class ModificationStagiaireControleur implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+//		donneeStagiaire = new AccueilPrincipalControleur;
+//		String nom = donneeStagiaire.preRemplirChampsModification();
+//		nomStTextField.setText(nom);
+		
 		annulStBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -62,6 +70,8 @@ public class ModificationStagiaireControleur implements Initializable {
 			}
 		});
 	}
+	
+	@FXML
 	private void reset() {
 		this.nomStTextField.clear();
 		this.prenomStTextField.clear();
