@@ -13,7 +13,12 @@ public class Data {
 	private List<Stagiaire> listeStagiaires = new ArrayList<>();
 
 	private ArbreBinaireModel<Stagiaire> arbreStagiaire = new ArbreBinaireModel<>();
+	private ArbreBinaireModel<Stagiaire> arbreStagiaireBin = new ArbreBinaireModel<>();
 	
+	public ArbreBinaireModel<Stagiaire> getArbreStagiaireBin() {
+		return arbreStagiaireBin;
+	}
+
 	public ArbreBinaireModel<Stagiaire> getArbreStagiaire() {
 		return arbreStagiaire;
 	}
