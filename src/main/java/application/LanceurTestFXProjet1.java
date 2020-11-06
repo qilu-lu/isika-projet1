@@ -44,6 +44,7 @@ public class LanceurTestFXProjet1 extends Application {
 	public static void main(String[] args) throws IOException {
 
 		LanceurTestFXProjet1 lanceur = new LanceurTestFXProjet1();
+
 		launch(args);
 	}
 
@@ -121,9 +122,15 @@ public class LanceurTestFXProjet1 extends Application {
 	}
 
 	public void lectureSeuleFichier(long position) {
+<<<<<<< HEAD
 
 		// ArbreBinaireModel<Stagiaire> arbreStagiaireBin = new ArbreBinaireModel<>();
 
+=======
+
+		// ArbreBinaireModel<Stagiaire> arbreStagiaireBin = new ArbreBinaireModel<>();
+
+>>>>>>> b8a4e28... lecteur binaire fini
 		// passer la position en argument
 
 		try (RandomAccessFile raf = new RandomAccessFile(
