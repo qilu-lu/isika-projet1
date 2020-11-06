@@ -89,6 +89,40 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 		}
 	}
 
+	public void creationArbredeFicherBin(E st,int iD) {
+		EcritureFichierBinaire<IEnregistrable> ecr = new EcritureFichierBinaire<IEnregistrable>();
+		Noeud<E> courant = racine;
+		if (courant == null) {
+			racine = new Noeud<E>(st, 0);
+			size++;
+		
+		} else {
+			boolean trouve = false;
+			while (!trouve) {
+				int test = st.compareTo(courant.stagiaire);
+				if (test == 0) {
+					trouve = true;
+				} else if (test < 0) {
+					if (courant.gauche == null) {
+						courant.gauche = new Noeud<E>(st, iD);
+						size++;
+						//recup�rer les infos
+					
+					} else {
+						courant = courant.gauche;
+					}
+				} else {
+					if (courant.droit == null) {
+						courant.droit = new Noeud<E>(st,iD);
+						size++;
+					
+					} else {
+						courant = courant.droit;
+					}
+				}
+			}
+		}
+	}
 
 
 
