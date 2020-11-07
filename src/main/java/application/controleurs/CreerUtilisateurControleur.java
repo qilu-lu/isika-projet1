@@ -1,18 +1,14 @@
 package application.controleurs;
 
-import java.io.FileOutputStream;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 
-import application.controleurs.LoginControleur.User;
 import application.models.NouvelUtilisateurModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
