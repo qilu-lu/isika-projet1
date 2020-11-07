@@ -1,6 +1,7 @@
 package application;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -41,62 +42,77 @@ public class LanceurTestFXProjet1 extends Application {
 
 	private static final String CHEMIN_FICHIER_STAGIAIRE_DON = "STAGIAIRES.DON";
 	private static final String LISTE_STAGIAIRE_FICHIER = "FileBin.bin";
-	URL resource1 = getClass().getClassLoader().getResource(LISTE_STAGIAIRE_FICHIER);
+	URL resource1 = initResourceBin();
 
+	private URL initResourceBin() {
+		return getClass().getClassLoader().getResource(LISTE_STAGIAIRE_FICHIER);
+	}
 
 	public static void main(String[] args) throws IOException {
 
 		LanceurTestFXProjet1 lanceur = new LanceurTestFXProjet1();
-		lanceur.lectureSeuleFichier(0); 
+
+		lanceur.lectureSeuleFichier(0);
+
 		launch(args);
 	}
 
-	public LanceurTestFXProjet1() {
-		ArbreBinaireModel<Stagiaire> arbreStagiaireDon = new ArbreBinaireModel<Stagiaire>();
+	public LanceurTestFXProjet1() throws IOException {
+		// ArbreBinaireModel<Stagiaire> arbreStagiaireDon = new
+		// ArbreBinaireModel<Stagiaire>();
 		// ArbreBinaireModel<Stagiaire>();
 
 		// List<Stagiaire> listeStagiaire = new ArrayList<Stagiaire>();
 		URL resource = getClass().getClassLoader().getResource(CHEMIN_FICHIER_STAGIAIRE_DON);
-		try (BufferedReader bufferedReader = new BufferedReader(
-				new InputStreamReader(new FileInputStream(resource.getFile()), "UTF-8"))) {
-			
-			//Delete fichier FileBin.bin ou faire un if(il existe) ne pas recopier encore une fois dedans ...
-			
-			int nb = 0;
-			int numero = 0;
-			String line;
 
-			Stagiaire st = new Stagiaire();
+		if (resource1 == null) {
+			String pathBin = new File(resource.getPath()).getParent() + File.separator + LISTE_STAGIAIRE_FICHIER;
+			new File(pathBin).createNewFile();
+			resource1 = initResourceBin();
 
-			String nom = null, prenom = null, departement = null, promo = null;
-			int annee = 0;
+			try (BufferedReader bufferedReader = new BufferedReader(
+					new InputStreamReader(new FileInputStream(resource.getFile()), "UTF-8"))) {
 
-			while ((line = bufferedReader.readLine()) != null) {
-				numero++;
-				if (numero % 6 == 1)
-					st.setNom(line);
-				if (numero % 6 == 2)
-					st.setPrenom(line);
-				if (numero % 6 == 3)
-					st.setDepartement(line);
-				if (numero % 6 == 4)
-					st.setPromotion(line);
-				if (numero % 6 == 5)
-					st.setAnnee(Integer.parseInt(line));
-				if (line.contentEquals("*")) {
-					numero = 0;
+				// Delete fichier FileBin.bin ou faire un if(il existe) ne pas recopier encore
+				// une fois dedans ...
 
-					Data.getInstance().getArbreStagiaire().ajouterNoeud(st);
-					st = new Stagiaire();
+				int nb = 0;
+				int numero = 0;
+				String line;
+
+				Stagiaire st = new Stagiaire();
+
+				String nom = null, prenom = null, departement = null, promo = null;
+				int annee = 0;
+
+				while ((line = bufferedReader.readLine()) != null) {
+					numero++;
+					if (numero % 6 == 1)
+						st.setNom(line);
+					if (numero % 6 == 2)
+						st.setPrenom(line);
+					if (numero % 6 == 3)
+						st.setDepartement(line);
+					if (numero % 6 == 4)
+						st.setPromotion(line);
+					if (numero % 6 == 5)
+						st.setAnnee(Integer.parseInt(line));
+					if (line.contentEquals("*")) {
+						numero = 0;
+
+						Data.getInstance().getArbreStagiaire().ajouterNoeud(st);
+						st = new Stagiaire();
+					}
 				}
+
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-
-		} catch (IOException e) {
-			e.getMessage();
 		}
-		// listeStagiaire.forEach(stag -> System.out.println(stag));
-
 	}
+	// listeStagiaire.forEach(stag -> System.out.println(stag));
+
+	// }
 
 	public void rechercheFiltre(ArbreBinaireModel arbre) {
 		String filtreNom = null;
@@ -119,7 +135,9 @@ public class LanceurTestFXProjet1 extends Application {
 		// ArbreBinaireModel<Stagiaire> arbreStagiaireBin = new ArbreBinaireModel<>();
 		// passer la position en argument
 		try (RandomAccessFile raf = new RandomAccessFile(
+
 				resource1.getFile(), "r")) {
+
 			// while(true) {
 
 			Stagiaire st = new Stagiaire();
@@ -159,16 +177,18 @@ public class LanceurTestFXProjet1 extends Application {
 				id = raf.readInt();
 
 				// stagiaire ajouter dans l'arbre
+
 				System.out.println(st + "" + id);
 				Data.getInstance().getArbreStagiaireBin().creationArbredeFicherBin(st, id);
+
 				st = new Stagiaire();
-				
+
 				position = position + 4;
 			}
 
 		} catch (
 
-				IOException ioe) {
+		IOException ioe) {
 			ioe.getMessage();
 		}
 	}
@@ -180,4 +200,5 @@ public class LanceurTestFXProjet1 extends Application {
 		String nom = new String(tmp);
 		return nom;
 	}
+
 }

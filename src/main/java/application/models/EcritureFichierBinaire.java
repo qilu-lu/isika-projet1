@@ -1,16 +1,15 @@
 package application.models;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.net.URL;
 
-import application.LanceurTestFXProjet1;
-
-
 public class EcritureFichierBinaire<E extends IEnregistrable> {
 	public static final String LISTE_STAGIAIRE_FICHIER = "FileBin.bin";
-	URL resource1 = getClass().getClassLoader().getResource(LISTE_STAGIAIRE_FICHIER);
 
+	URL resource1 = getClass().getClassLoader()
+			.getResource(LISTE_STAGIAIRE_FICHIER);
 
 	public void reecrirePositionNoeud(E st, int positionNoeud, int positionNoeudParent, int positionBin) {
 		int positionAModifier = 0;
@@ -45,8 +44,10 @@ public class EcritureFichierBinaire<E extends IEnregistrable> {
 	}
 
 	public void ecrireNouveauNoeud(E st, int numDeNoeud) {
+
 		try (RandomAccessFile raf = new RandomAccessFile(resource1.getFile(), "rw");) {
-			// TODO modifier le length pour écrire dans les trous de suppression
+			// TODO modifier le length pour ï¿½crire dans les trous de suppression
+
 			raf.seek(raf.length());
 			raf.writeChars(st.uniformise());
 			raf.writeInt((int) ((Stagiaire) st).getAnnee());
@@ -55,15 +56,18 @@ public class EcritureFichierBinaire<E extends IEnregistrable> {
 			raf.writeInt(numDeNoeud);
 		} catch (IOException ioe) {
 			ioe.getMessage();
+
 		}
 	}
 
 	public void supprimerNoeudDansBin(E st, int iDNoeudASuppr) {
+
 		try (RandomAccessFile raf = new RandomAccessFile(resource1.getFile(), "rw");) {
-			// recupère le dernier id du fichier
+			// recupï¿½re le dernier id du fichier
+
 			raf.seek(raf.length() - 4);
 			int dernierID = ((int) raf.readInt());
-			// calcule la position de la sequence à supprimer
+			// calcule la position de la sequence ï¿½ supprimer
 			int positionDebutNoeudSuppr = (dernierID - iDNoeudASuppr) * st.getTailleEnregistrement()
 					+ st.getTailleEnregistrement();
 			raf.seek(raf.length() - positionDebutNoeudSuppr);
