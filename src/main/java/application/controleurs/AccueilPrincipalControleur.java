@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.AcroFields.Item;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -310,15 +309,6 @@ public class AccueilPrincipalControleur implements Initializable {
 		}
 	}
 
-	// TODO : Faire la mÃ©thode imprimer en PDF
-	//		MessageFormat header = new MessageFormat("Liste des Stagiaires :");
-	//		MessageFormat footer = new MessageFormat("Page{0,number,integer}");
-	//		try {
-	//			listeDynamiqueStagiaires.print(JTable.PrintMode.NORMAL, header, footer);
-	//			
-	//		}catch(java.awt.print.PrinterException e) {
-	//			System.err.format("Erreur d'impression ",  e.getMessage());
-
 	private void imprimePdf(ObservableList<Stagiaire> stagiaires) throws DocumentException, FileNotFoundException {
 		//TODO VOIR POUR CHEMIN DANS DOSSIER
 		FileOutputStream fos = new FileOutputStream(new File("C:\\Users\\roman\\OneDrive\\Bureau\\ISIKA\\Test création PDF\\liste.pdf"));
@@ -395,14 +385,10 @@ public class AccueilPrincipalControleur implements Initializable {
 
 		listeDynamiqueStagiaires= FXCollections.observableArrayList();
 
-		for (int i=0;i<Data.getInstance().getArbreStagiaire().getSize();i++) {
-			listeDynamiqueStagiaires.add(Data.getInstance().getArbreStagiaire().get(i));
+		for (int i=0;i<Data.getInstance().getArbreStagiaireBin().getSize();i++) {
+			listeDynamiqueStagiaires.add(Data.getInstance().getArbreStagiaireBin().get(i));
 			//TODO arbre à afficher en infixe
 		}
-
-		//Data.getInstance().getListeStagiaires().forEach(listeDynamiqueStagiaires::add);
-
-		//listeDynamiqueStagiaires = FXCollections.observableArrayList(this.modeleGlobalStagiaires.getStagiaires());
 		stagiairesTable.setItems(listeDynamiqueStagiaires);
 	}
 

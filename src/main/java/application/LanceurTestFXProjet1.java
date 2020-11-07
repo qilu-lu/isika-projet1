@@ -40,11 +40,14 @@ public class LanceurTestFXProjet1 extends Application {
 	}
 
 	private static final String CHEMIN_FICHIER_STAGIAIRE_DON = "STAGIAIRES.DON";
+	private static final String LISTE_STAGIAIRE_FICHIER = "FileBin.bin";
+	URL resource1 = getClass().getClassLoader().getResource(LISTE_STAGIAIRE_FICHIER);
+
 
 	public static void main(String[] args) throws IOException {
 
 		LanceurTestFXProjet1 lanceur = new LanceurTestFXProjet1();
-
+		lanceur.lectureSeuleFichier(0); 
 		launch(args);
 	}
 
@@ -56,6 +59,9 @@ public class LanceurTestFXProjet1 extends Application {
 		URL resource = getClass().getClassLoader().getResource(CHEMIN_FICHIER_STAGIAIRE_DON);
 		try (BufferedReader bufferedReader = new BufferedReader(
 				new InputStreamReader(new FileInputStream(resource.getFile()), "UTF-8"))) {
+			
+			//Delete fichier FileBin.bin ou faire un if(il existe) ne pas recopier encore une fois dedans ...
+			
 			int nb = 0;
 			int numero = 0;
 			String line;
@@ -84,25 +90,6 @@ public class LanceurTestFXProjet1 extends Application {
 					st = new Stagiaire();
 				}
 			}
-			// System.out.println(arbreStagiaire.getSize());
-			// listeStagiaires = arbreStagiaire.infixe(arbreStagiaire.getRacine());
-
-			// Data.getInstance().getListeStagiaires().add(arbreStagiaire.get(i));
-
-//			System.out.print(listeStagiaires);
-			// listeStagiaires.forEach(stag -> System.out.println(stag));
-
-
-			// Data.getInstance().getListeStagiaires().add(arbreStagiaire.get(i));
-
-//			System.out.print(listeStagiaires);
-			// listeStagiaires.forEach(stag -> System.out.println(stag));
-
-			// for (int i = 0; i < arbreStagiaire.getSize(); i++) {
-			// lectureSeuleFichier(120 * i);
-			// }
-
-//			rechercheFiltre(arbreStagiaire);
 
 		} catch (IOException e) {
 			e.getMessage();
@@ -131,14 +118,13 @@ public class LanceurTestFXProjet1 extends Application {
 
 		// ArbreBinaireModel<Stagiaire> arbreStagiaireBin = new ArbreBinaireModel<>();
 		// passer la position en argument
-
 		try (RandomAccessFile raf = new RandomAccessFile(
-				"C:\\Users\\Stagiaire\\hubiC\\_FormationISIKA\\PROJET_1\\Stagiaire.bin", "r")) {
+				resource1.getFile(), "r")) {
 			// while(true) {
 
 			Stagiaire st = new Stagiaire();
 			while (position % 120 < 117) {
-
+				int id = 0;
 				raf.seek(position);
 				String nom = readString(raf, 21);
 				if (nom.contains("*")) {
@@ -154,34 +140,35 @@ public class LanceurTestFXProjet1 extends Application {
 				st.setPrenom(prenom);
 				position = position + 36;
 				raf.seek(position);
-//
+				//
 				String departement = readString(raf, 4);
 				st.setDepartement(departement);
 				position = position + 6;
 				raf.seek(position);
-//
+				//
 				String promotion = readString(raf, 10);
 				st.setPromotion(promotion);
 				position = position + 20;
 				raf.seek(position);
-//
+				//
 				int annee = raf.readInt();
 				st.setAnnee(annee);
 				position = position + 12;
-//
+				//
 				raf.seek(position);
-				int iD = raf.readInt();
+				id = raf.readInt();
 
 				// stagiaire ajouter dans l'arbre
-				System.out.println(st + "" + iD);
-				// Data.getInstance().getArbreStagiaire().creationArbredeFicherBin(st, id);
+				System.out.println(st + "" + id);
+				Data.getInstance().getArbreStagiaireBin().creationArbredeFicherBin(st, id);
 				st = new Stagiaire();
+				
 				position = position + 4;
 			}
 
 		} catch (
 
-		IOException ioe) {
+				IOException ioe) {
 			ioe.getMessage();
 		}
 	}

@@ -95,6 +95,7 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 		if (courant == null) {
 			racine = new Noeud<E>(st, 0);
 			size++;
+			iD++;
 		
 		} else {
 			boolean trouve = false;
