@@ -1,6 +1,7 @@
 package application.controleurs;
 
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -63,12 +64,16 @@ public class AjoutStagiaireControleur implements Initializable {
 		ajoutStBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				ajouterNewStagiaire();
+				try {
+					ajouterNewStagiaire();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
 
-	protected void ajouterNewStagiaire() {
+	protected void ajouterNewStagiaire() throws IOException {
 		String erreurs = validerSaisie();
 		if (erreurs.isEmpty()) {
 
@@ -79,7 +84,7 @@ public class AjoutStagiaireControleur implements Initializable {
 			stagiaire.setPromotion(promoStTextField.getText());
 			stagiaire.setAnnee(Integer.valueOf(anneeStTextField.getText()));
 			
-			//TODO récupération des données du nouveau stagiaire dans l'arbre
+			//TODO rï¿½cupï¿½ration des donnï¿½es du nouveau stagiaire dans l'arbre
 			//arbreStagiaires.ajoutNouveauNoeud(stagiaire);
 			//
 			
@@ -123,36 +128,36 @@ public class AjoutStagiaireControleur implements Initializable {
 		// nom
 		String nom = nomStTextField.getText();
 		if (nom == null || nom.trim().isEmpty()) {
-			errorsBuilder.append("Le nom du stagiaire doit être renseigné\n");
+			errorsBuilder.append("Le nom du stagiaire doit Ãªtre renseignÃ©\n");
 		}
 
 		// prenom
 		String prenom = prenomStTextField.getText();
 		if (prenom.trim().isEmpty()) {
-			errorsBuilder.append("Le prénom du stagiaire doit être renseigné\n");
+			errorsBuilder.append("Le prÃ©nom du stagiaire doit Ãªtre renseignÃ©\n");
 		}
 
 		// departement
 		String departement = departementStTextField.getText();
 		if (departement.trim().isEmpty()) {
-			errorsBuilder.append("Le département du stagiaire doit être renseigné\n");
+			errorsBuilder.append("Le dÃ©partement du stagiaire doit Ãªtre renseignÃ©\n");
 		}
 
 		// promotion
 		String promotion = promoStTextField.getText();
 		if (promotion.trim().isEmpty()) {
-			errorsBuilder.append("La promotion du stagiaire doit être renseigné\n");
+			errorsBuilder.append("La promotion du stagiaire doit Ãªtre renseignÃ©\n");
 		}
 
 		// annee
 		String annee = anneeStTextField.getText();
 		if (annee == null || annee.trim().isEmpty()) {
-			errorsBuilder.append("L'année de l'entrée dans la promotion du stagiaire doit être renseigné\n");
+			errorsBuilder.append("L'annÃ©e d'inscription doit Ãªtre renseignÃ©e\n");
 		} else {
 			try {
 				Integer.valueOf(annee);
 			} catch (NumberFormatException e) {
-				errorsBuilder.append("L'année doit être une valeur numérique\n");
+				errorsBuilder.append("L'annÃ©e d'inscription doit Ãªtre une valeur numÃ©rique\n");
 			}
 		}
 		return errorsBuilder.toString();

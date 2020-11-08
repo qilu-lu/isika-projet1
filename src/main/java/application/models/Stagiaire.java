@@ -9,8 +9,11 @@ public class Stagiaire implements IEnregistrable<Stagiaire> {
 	private String departement;
 	private String promotion;
 	private int annee;
-	private static final int SEQUENCE_OCTETS = 120;
+/////////////////////////MOFIDICATION SEQUENCE A 124 AJOUT NOEUD PARENT//////////////////////////////
+	private static final int SEQUENCE_OCTETS = 124;
+	private static final int SEQUENCE_CHARS_A_SUPPRIMER = 60;
 	private static final int ID_NOEUD_INIT = -1;
+	private static final int POS_ACCES_NOEUD_PARENT = 16;
 	private static final int POS_ACCES_NOEUD_GAUCHE = 12;
 	private static final int POS_ACCES_NOEUD_DROIT = 8;
 
@@ -116,11 +119,12 @@ public class Stagiaire implements IEnregistrable<Stagiaire> {
 	@Override
 	public String uniformiseVide() {
 		StringBuilder sequenceVide = new StringBuilder();
-		sequenceVide.append("*");
-		sequenceVide.setLength(52);
-		
+		for(int i = 0 ; i< SEQUENCE_CHARS_A_SUPPRIMER;i++) {
+			sequenceVide.append("*");
+		}
 		return sequenceVide.toString();
 	}
+	
 	
 	public int compareToNom(Stagiaire o) {
 		int result = 0;
@@ -217,5 +221,16 @@ public class Stagiaire implements IEnregistrable<Stagiaire> {
 	public int getPositionNoeudD() {
 		return POS_ACCES_NOEUD_DROIT ;
 	}
+	@Override
+	public int getSequenceASupprimer() {
+		return SEQUENCE_CHARS_A_SUPPRIMER ;
+	}
+	@Override
+	public int getPositionNoeudP() {
+		return POS_ACCES_NOEUD_PARENT;
+	}
+	
+	
+	
 	
 }
