@@ -72,11 +72,16 @@ public class ModificationStagiaireControleur implements Initializable {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO à faire acceptation de la modification du stagiaire;
+				modifierStagiaire();
 			}
 		});
 	}
 	
 	
+	private void modifierStagiaire() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@FXML
 	private void reset() {

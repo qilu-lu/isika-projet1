@@ -114,23 +114,39 @@ public class LanceurTestFXProjet1 extends Application {
 
 	// }
 
-	public void rechercheFiltre(ArbreBinaireModel arbre) {
-		String filtreNom = null;
-		String filtreDepartement = null;
-		String filtrePromotion = null;
-		Integer filtreAnnee = null;
-		Predicate<Stagiaire> filter = e -> (filtreNom == null || e.getNom().startsWith(filtreNom))
-				&& (filtreDepartement == null || e.getDepartement().startsWith(filtreDepartement))
-				&& (filtrePromotion == null || e.getPromotion().startsWith(filtrePromotion))
-				&& (filtreAnnee == null || e.getAnnee() == filtreAnnee);
+	public static List<Stagiaire> rechercheFiltre(ArbreBinaireModel arbre, String filtreNom, 
+			String filtreDepartement, String filtrePromotion, String filtreAnnee) { 
+		//		String filtreNom = null;
+		//		String filtreDepartement = null;
+		//		String filtrePromotion = null;
+		//		Integer filtreAnnee = null;
+		List<Stagiaire>list=new ArrayList<Stagiaire>();
+		Predicate<Stagiaire> filter = e -> (filtreNom.isEmpty() || e.getNom().startsWith(filtreNom))
+				&& (filtreDepartement.isEmpty() || e.getDepartement().startsWith(filtreDepartement))
+				&& (filtrePromotion.isEmpty() || e.getPromotion().startsWith(filtrePromotion))
+				&& (filtreAnnee.isEmpty() || String.valueOf(e.getAnnee()) == filtreAnnee);
 		ArbreBinaireModel<Stagiaire> stagiaireFiltre = arbre.filter(filter);
-		for (int i = 0; i < stagiaireFiltre.getSize(); i++) {
-			System.out.println(stagiaireFiltre.get(i));
+		//		for (int i = 0; i < stagiaireFiltre.getSize(); i++) {
+		//			stagiaireFiltre.get(i);
+		for (int i=0;i<stagiaireFiltre.getSize();i++) {
+			list.add(stagiaireFiltre.get(i));
+			//TODO arbre à afficher en infixe
 		}
 
+		return  list;
 	}
 
+
+
 	public void lectureSeuleFichier(long position) {
+		StringBuilder stNom = new StringBuilder();
+		StringBuilder stPrenom = new StringBuilder();
+		StringBuilder stDepartement = new StringBuilder();
+		StringBuilder stPromotion = new StringBuilder();
+		StringBuilder stAnnee = new StringBuilder();
+		StringBuilder stNoeud = new StringBuilder();
+		StringBuilder myStringBuilder =new StringBuilder();
+
 
 		// ArbreBinaireModel<Stagiaire> arbreStagiaireBin = new ArbreBinaireModel<>();
 		// passer la position en argument
@@ -138,67 +154,93 @@ public class LanceurTestFXProjet1 extends Application {
 
 				resource1.getFile(), "r")) {
 
-			// while(true) {
 
 			Stagiaire st = new Stagiaire();
+
 			while (position % 120 < 117) {
-				int id = 0;
-				raf.seek(position);
-				String nom = readString(raf, 21);
-				if (nom.contains("*")) {
-					position = position + 120;
-					raf.seek(position);
-					continue;
+
+
+				stNom.setLength(0);
+				for(int i=0;i<21;i++) {
+					stNom.append(raf.readChar());
 				}
+				String nom = stNom.toString().trim();
+				//			if (nom.contains("*")) {
+				//				position = position + 120;
+				//				raf.seek(position);
+				//				continue;
+				//			}
 				st.setNom(nom);
+
 				position = position + 42;
 				raf.seek(position);
-				//
-				String prenom = readString(raf, 18);
+
+
+
+				stPrenom.setLength(0);
+				for(int i=0;i<18;i++) {
+					stPrenom.append(raf.readChar());
+				}
+				String prenom = stPrenom.toString().trim();
 				st.setPrenom(prenom);
+
 				position = position + 36;
 				raf.seek(position);
-				//
-				String departement = readString(raf, 4);
+
+
+
+				stDepartement.setLength(0);
+				for(int i=0;i<3;i++) {
+					stDepartement.append(raf.readChar());
+				}
+				String departement = stDepartement.toString().trim();
 				st.setDepartement(departement);
+
 				position = position + 6;
 				raf.seek(position);
-				//
-				String promotion = readString(raf, 10);
+
+
+
+				stPromotion.setLength(0);
+				for(int i=0;i<10;i++) {
+					stPromotion.append(raf.readChar());
+				}
+				String promotion = stPromotion.toString().trim();
 				st.setPromotion(promotion);
+
 				position = position + 20;
 				raf.seek(position);
-				//
+
+
+
 				int annee = raf.readInt();
+				stAnnee.setLength(0);
 				st.setAnnee(annee);
+
 				position = position + 12;
-				//
 				raf.seek(position);
-				id = raf.readInt();
 
-				// stagiaire ajouter dans l'arbre
 
-				System.out.println(st + "" + id);
-				Data.getInstance().getArbreStagiaireBin().creationArbredeFicherBin(st, id);
+				int iD = raf.readInt();	
+				System.out.println(st + "" + iD);
+				Data.getInstance().getArbreStagiaireBin().creationArbredeFicherBin(st, iD);
 
 				st = new Stagiaire();
-
 				position = position + 4;
 			}
 
-		} catch (
-
-		IOException ioe) {
+		} catch (IOException ioe) {
 			ioe.getMessage();
 		}
+
 	}
 	// raf.close();
 
-	private String readString(RandomAccessFile raf, int size) throws IOException {
-		byte[] tmp = new byte[size];
-		raf.read(tmp);
-		String nom = new String(tmp);
-		return nom;
-	}
+	//	private String readString(RandomAccessFile raf, int size) throws IOException {
+	//		byte[] tmp = new byte[size];
+	//		raf.read(tmp);
+	//		String nom = new String(tmp);
+	//		return nom;
+	//	}
 
 }
