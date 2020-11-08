@@ -12,6 +12,10 @@ public interface IEnregistrable<E> extends Comparable<E> {
 	
 	public int getPositionNoeudD();
 
+	public int getPositionNoeudP();
+
+	public int getSequenceASupprimer();
+	
 	public String uniformiseVide();
 
 }

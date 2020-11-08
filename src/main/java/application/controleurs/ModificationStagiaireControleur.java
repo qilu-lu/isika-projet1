@@ -1,8 +1,11 @@
 package application.controleurs;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.Data;
+import application.models.ArbreBinaireModel;
 import application.models.Stagiaire;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,6 +34,9 @@ public class ModificationStagiaireControleur implements Initializable {
 	private Button resetStBtn;
 	@FXML
 	private Button modifStBtn;
+	
+	private Stagiaire stagiaireSuppr;
+	private Stage modifStagiaireStage;
 	 
 	private AccueilPrincipalControleur vueModificationStagiaire;
 	
@@ -55,7 +61,9 @@ public class ModificationStagiaireControleur implements Initializable {
 		promoStTextField.setText(promotion);
 		String annee = getvueModificationStagiaire().preRemplirChampsModificationAnnee();
 		anneeStTextField.setText(annee);
-
+		
+		stagiaireSuppr = new Stagiaire(nom, prenom, departement, promotion,Integer.parseInt(annee));
+	
 		annulStBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -71,17 +79,41 @@ public class ModificationStagiaireControleur implements Initializable {
 		modifStBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO à faire acceptation de la modification du stagiaire;
-				modifierStagiaire();
+				Stagiaire stModif = new Stagiaire();
+				try {
+					modifierStagiaire();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
 	
+	private Stagiaire donneesStagaireSuppr() {
+		return stagiaireSuppr;
+	}
 	
-	private void modifierStagiaire() {
-		// TODO Auto-generated method stub
+	private void modifierStagiaire() throws IOException {
+		//SUPPRIMER LES ANCIENNES
+		Stagiaire st = donneesStagaireSuppr();
+		vueModificationStagiaire.supprStagiaireModif(st);
+		
+		//AJOUTER LES NOUVELLES DONNEES
+		String nomModif = nomStTextField.getText();
+		String prenomModif = prenomStTextField.getText();
+		String departementModif = departementStTextField.getText();
+		String promoModif = promoStTextField.getText();
+		String anneeModif = anneeStTextField.getText();
+		
+		Stagiaire stModif = new Stagiaire(nomModif, prenomModif, departementModif, promoModif, Integer.parseInt(anneeModif));
+		vueModificationStagiaire.ajouterStagaireDansArbre(stModif);
+		
+		closeStage();
+		
+//		Data.getInstance().getArbreStagiaireBin().ajouterNoeud(stModif);
 		
 	}
+
 
 	@FXML
 	private void reset() {
@@ -92,12 +124,19 @@ public class ModificationStagiaireControleur implements Initializable {
 		this.anneeStTextField.clear();
 		System.out.println("all clear");		
 	}
+	
 	private void returnToAccueilPrincipal() {
 		System.out.println("retour vers Accueil Principal");
-		Stage stage = (Stage) annulStBtn.getScene().getWindow(); 
-		stage.hide();		
+//		Stage stage = (Stage) annulStBtn.getScene().getWindow(); 
+//		stage.hide();
+		this.modifStagiaireStage.hide();
 	}
 
 	public void setStage(Stage stage) {
+		modifStagiaireStage = stage;
+	}
+	
+	private void closeStage() {
+		modifStagiaireStage.close();
 	}
 }
