@@ -1,7 +1,5 @@
 package application.models;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Predicate;
 
 
@@ -181,7 +179,7 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 
 	public ArbreBinaireModel<E>filter(Predicate<E>p){
 		ArbreBinaireModel<E>ret=new ArbreBinaireModel<>();
-		for (int i = 0; i < this.size; i++) {
+		for (int i = 0; i < this.size; i=i+2) {
 			final E el=this.get(getRacine(), i);
 			if(p.test(el)) {
 				ret.ajouterNoeud(el);
@@ -216,7 +214,7 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 	public void infixe(Noeud<E> r) {
 		if (r != null) {
 			infixe(r.gauche);
-			System.out.println(r.stagiaire.toString() +"\n");
+			System.out.println(r);
 			infixe(r.droit);
 		}
 	}
