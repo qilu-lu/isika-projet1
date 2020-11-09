@@ -9,6 +9,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.itextpdf.text.Document;
@@ -17,13 +18,11 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.sun.media.jfxmedia.events.NewFrameEvent;
 
 import application.Data;
 import application.LanceurTestFXProjet1;
 import application.models.ArbreBinaireModel;
 import application.models.Stagiaire;
-import application.models.StagiairesModel;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,6 +35,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -97,8 +97,6 @@ public class AccueilPrincipalControleur implements Initializable {
 	@FXML
 	private TableColumn<Stagiaire, Integer> annee;
 
-	// private StagiairesModel modeleGlobalStagiaires;
-
 	private ObservableList<Stagiaire> listeDynamiqueStagiaires;
 
 	private LoginControleur vueAccueil;
@@ -112,10 +110,6 @@ public class AccueilPrincipalControleur implements Initializable {
 		this.vueAccueil = vueAccueil;
 	}
 
-	public AccueilPrincipalControleur() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public LoginControleur getvueAccueil() {
 		return vueAccueil;
 	}
@@ -123,11 +117,8 @@ public class AccueilPrincipalControleur implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		// modeleGlobalStagiaires = new StagiairesModel();
 		initStagiairesTable();
 		mettreAJourNbrStagiaire();
-
-		//
 
 		EventHandler<ActionEvent> ajout = new EventHandler<ActionEvent>() {
 			@Override
@@ -177,7 +168,6 @@ public class AccueilPrincipalControleur implements Initializable {
 					try {
 						afficherFenetreModificationStagiaire(stagiaire);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -199,22 +189,15 @@ public class AccueilPrincipalControleur implements Initializable {
 						if (pdfFile.exists()) {
 							if (Desktop.isDesktopSupported()) {
 								Desktop.getDesktop().open(pdfFile);
-							} else {
-								System.out.println("attention il faut �tre sur Windows, MacOS ou Linux");
 							}
-						} else {
-							System.out.println("Le fichier pdf n'est pas trouv�!");
 						}
-
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
 
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (DocumentException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -229,20 +212,51 @@ public class AccueilPrincipalControleur implements Initializable {
 			@Override
 			public void handle(ActionEvent event) {
 				rechercherStagiaire();
+
 			}
 		});
 	}
 
 	private void rechercherStagiaire() {
-		// appeler la m�thode filtre
 		List<Stagiaire> listeFiltree = new ArrayList<Stagiaire>();
-		listeFiltree = LanceurTestFXProjet1.rechercheFiltre(Data.getInstance().getArbreStagiaireBin(),
-				nomRechercheTextField.getText().toUpperCase(), departementRechercheTextField.getText(),
-				promotionRechercheTextField.getText(), anneeRechercheTextField.getText());
-		mettreAJourListe(listeFiltree);
-		mettreAJourNbrStagiaire();
 
+		String erreurs = validerRecherche();
+		if(erreurs.isEmpty()) {
 
+			String anneeText = anneeRechercheTextField.getText();
+			Integer filtreAnnee = (anneeText != null && !anneeText.isEmpty()) 
+					? Integer.valueOf(anneeText) : null;
+					String filtreDepartement = departementRechercheTextField.getText();
+					String filtreNom = nomRechercheTextField.getText().toUpperCase();
+					String filtrePromotion = promotionRechercheTextField.getText();
+
+					listeFiltree = LanceurTestFXProjet1.rechercheFiltre(Data.getInstance().getArbreStagiaireBin(),
+							filtreNom, filtreDepartement,
+							filtrePromotion, filtreAnnee);
+					mettreAJourListe(listeFiltree);
+					mettreAJourNbrStagiaire();
+					majTriParNom(nom);
+
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setHeaderText("Saisie erronnée : ");
+			alert.setContentText(erreurs);
+			alert.show();
+		}
+
+	}
+
+	private String validerRecherche() {
+		StringBuilder erreurs = new StringBuilder();
+		String anneeRech = anneeRechercheTextField.getText();
+		try {
+			if(anneeRech != null && !anneeRech.isEmpty()) {
+				Integer annee = Integer.valueOf(anneeRech);
+			}
+		} catch(NumberFormatException e) {
+			erreurs.append("L'année n'est pas valide");
+		}
+		return erreurs.toString();
 	}
 
 	private void mettreAJourNbrStagiaire() {
@@ -280,53 +294,61 @@ public class AccueilPrincipalControleur implements Initializable {
 		return stage;
 	}
 
-	// mise � jour par NOM OK pour AJOUTER, peut �tre r�utilis� cette m�thode pour
-	// modifier
 	public void ajouterStagaireDansArbre(Stagiaire stagiaire) throws IOException {
 		Data.getInstance().getArbreStagiaireBin().ajouterNoeud(stagiaire);
 		mettreAJourTable(stagiaire);
 		mettreAJourNbrStagiaire();
 		majTriParNom(nom);
 	}
-	
+
 	public void supprStagiaireModif(Stagiaire stagiaire) {
+
 		stagiaire = stagiairesTable.getSelectionModel().getSelectedItem();
 		if(stagiaire != null) {
-		listeDynamiqueStagiaires.remove(stagiaire);
-		stagiairesTable.refresh();
-		mettreAJourNbrStagiaire();
-		Data.getInstance().getArbreStagiaireBin().supprimerNoeud(stagiaire);
-	} else {
-		Alert alert = new Alert(AlertType.WARNING);
-		alert.setTitle("Suppression d'un stagiaire");
-		alert.setHeaderText("Valider les modifications ?");
-		alert.show();
-	}
+			listeDynamiqueStagiaires.remove(stagiaire);
+			stagiairesTable.refresh();
+			mettreAJourNbrStagiaire();
+			Data.getInstance().getArbreStagiaireBin().supprimerNoeud(stagiaire);
+
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Suppression d'un stagiaire");
+			alert.setHeaderText("Valider les modifications ?");
+			alert.show();
+		}
 	}
 
 	private void supprimerLine() {
 		Stagiaire stagiaire = stagiairesTable.getSelectionModel().getSelectedItem();
 		if (stagiaire != null) {
-			listeDynamiqueStagiaires.remove(stagiaire);
-			stagiairesTable.refresh();
-			mettreAJourNbrStagiaire();
-			Data.getInstance().getArbreStagiaireBin().supprimerNoeud(stagiaire);
+			Alert suppressionAlerte = new Alert(AlertType.CONFIRMATION);
+			suppressionAlerte.setTitle("Suppression d'un stagiaire");
+			suppressionAlerte.setHeaderText("Êtes-vous sûr de vouloir supprimer ce stagiaire ?");
+			Optional<ButtonType> option = suppressionAlerte.showAndWait();
+
+			if(option.get() == ButtonType.OK) {
+				listeDynamiqueStagiaires.remove(stagiaire);
+				stagiairesTable.refresh();
+				mettreAJourNbrStagiaire();
+				Data.getInstance().getArbreStagiaireBin().supprimerNoeud(stagiaire);
+			} else {
+
+			}
 		} else {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Suppression d'un stagiaire");
 			alert.setHeaderText("Veuillez sélectionner la ligne à supprimer");
 			alert.show();
-		}
-	}
+		}}
+
 
 	private void imprimePdf(ObservableList<Stagiaire> stagiaires) throws DocumentException, FileNotFoundException {
-		// TODO VOIR POUR CHEMIN DANS DOSSIER
 		FileOutputStream fos = new FileOutputStream(new File(VUE_PDF_STAGIAIRE_VIEW_PATH));
 		Document doc = new Document();
 		PdfWriter.getInstance(doc, fos);
 		doc.open();
 		doc.add(new Phrase("Liste des stagiaires\n"));
-		doc.add(new Phrase("Liste g�n�r�e le " + LocalDate.now() + "\n"));
+		doc.add(new Phrase("Liste générée le " + LocalDate.now() + "\n"));
 		doc.add(new Phrase("Nombre de stagiaires : " + listeDynamiqueStagiaires.size() + "\n"));
 		doc.add(new Phrase("- - - - - - - - - - - - - - - - - - - - - - - -"));
 		PdfPTable table = new PdfPTable(5);
@@ -335,19 +357,20 @@ public class AccueilPrincipalControleur implements Initializable {
 		PdfPCell cell3 = new PdfPCell(new Phrase("DEPARTEMENT"));
 		PdfPCell cell4 = new PdfPCell(new Phrase("PROMOTION"));
 		PdfPCell cell5 = new PdfPCell(new Phrase("ANNEE"));
-		// 1 ligne => header
+
 		table.addCell(cell1);
 		table.addCell(cell2);
 		table.addCell(cell3);
 		table.addCell(cell4);
 		table.addCell(cell5);
-		// n lignes suivantes
+		
+		table.setWidthPercentage(100);
+		
 		for (Stagiaire stagiaireTemp : stagiaires) {
 			table.addCell(new Phrase(stagiaireTemp.getNom()));
 			table.addCell(new Phrase(stagiaireTemp.getPrenom()));
 			table.addCell(new Phrase(stagiaireTemp.getDepartement()));
 			table.addCell(new Phrase(stagiaireTemp.getPromotion()));
-			// TODO n'affiche pas l'ann�e dans le tableau
 			table.addCell(new Phrase(Integer.toString(stagiaireTemp.getAnnee())));
 		}
 		doc.add(table);
@@ -362,12 +385,10 @@ public class AccueilPrincipalControleur implements Initializable {
 		this.anneeRechercheTextField.clear();
 		initStagiairesTable();
 		mettreAJourNbrStagiaire();
-		System.out.println("all clear");
 	}
 
 	@FXML
 	public void goToLogin() throws IOException {
-		System.out.println("retour vers Login");
 		primaryStage.hide();
 		vueAccueil.afficher();
 	}
@@ -375,13 +396,11 @@ public class AccueilPrincipalControleur implements Initializable {
 	@FXML
 	public void closeWindow() {
 		Platform.exit();
-		System.out.println("application quittée");
 	}
 
 	@SuppressWarnings("unchecked")
 	private void initStagiairesTable() {
 
-		// On récupère les colonnes par index (0 : nom, 1 : prenom .... 4 : annee)
 		TableColumn<Stagiaire, String> nomCol = (TableColumn<Stagiaire, String>) stagiairesTable.getColumns()
 				.get(INDEX_COLONNE_NOM);
 		TableColumn<Stagiaire, String> prenomCol = (TableColumn<Stagiaire, String>) stagiairesTable.getColumns()
@@ -393,8 +412,6 @@ public class AccueilPrincipalControleur implements Initializable {
 		TableColumn<Stagiaire, Integer> anneeCol = (TableColumn<Stagiaire, Integer>) stagiairesTable.getColumns()
 				.get(INDEX_COLONNE_ANNEE);
 
-		// On associe les colonnes de la table aux champs de l'objet qu'elle vont
-		// contenir
 		nomCol.setCellValueFactory(new PropertyValueFactory<>("nom"));
 		prenomCol.setCellValueFactory(new PropertyValueFactory<>("prenom"));
 		departementCol.setCellValueFactory(new PropertyValueFactory<>("departement"));
@@ -407,10 +424,8 @@ public class AccueilPrincipalControleur implements Initializable {
 			Stagiaire s = Data.getInstance().getArbreStagiaireBin().get(i);
 			if (s != null)
 				listeDynamiqueStagiaires.add(s);
-			// TODO arbre � afficher en infixe
 		}
 		stagiairesTable.setItems(listeDynamiqueStagiaires);
-		// SOLUTION MIRACLE TRIE PAR NOM
 		majTriParNom(nomCol);
 
 	}
@@ -420,9 +435,6 @@ public class AccueilPrincipalControleur implements Initializable {
 		stagiairesTable.getSortOrder().addAll(nomCol);
 	}
 
-	// public void mettreAJourModele(Stagiaire stagiaire) {
-	// modeleGlobalStagiaires.ajouterUnStagiaire(stagiaire);
-	// }
 
 	private void mettreAJourTable(Stagiaire stagiaire) {
 		listeDynamiqueStagiaires.add(stagiaire);

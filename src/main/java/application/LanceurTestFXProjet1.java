@@ -3,7 +3,6 @@ package application;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
@@ -31,7 +30,6 @@ public class LanceurTestFXProjet1 extends Application {
 			loader.setController(controleur);
 			Pane root = loader.load();
 			Scene scene = new Scene(root, root.getPrefWidth(), root.getPrefHeight());
-			// scene.getStylesheets().add(getClass().getClassLoader().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			controleur.setStage(primaryStage);
@@ -58,23 +56,17 @@ public class LanceurTestFXProjet1 extends Application {
 	}
 
 	public LanceurTestFXProjet1() throws IOException {
-		// ArbreBinaireModel<Stagiaire> arbreStagiaireDon = new
-		// ArbreBinaireModel<Stagiaire>();
-		// ArbreBinaireModel<Stagiaire>();
 
-		// List<Stagiaire> listeStagiaire = new ArrayList<Stagiaire>();
 		URL resource = getClass().getClassLoader().getResource(CHEMIN_FICHIER_STAGIAIRE_DON);
-
-	if (resource1 == null) {
+		// AU PREMIER LANCEMENT : CHARGEMENT DU FICHIER SOURCE .DON
+		// AU SECOND LANCEMENT : FICHIER .BIN COMME SOURCE DE DONNEES
+		if (resource1 == null) {
 			String pathBin = new File(resource.getPath()).getParent() + File.separator + LISTE_STAGIAIRE_FICHIER;
 			new File(pathBin).createNewFile();
 			resource1 = initResourceBin();
 
 			try (BufferedReader bufferedReader = new BufferedReader(
 					new InputStreamReader(new FileInputStream(resource.getFile()), "UTF-8"))) {
-
-				// Delete fichier FileBin.bin ou faire un if(il existe) ne pas recopier encore
-				// une fois dedans ...
 
 				int nb = 0;
 				int numero = 0;
@@ -110,30 +102,8 @@ public class LanceurTestFXProjet1 extends Application {
 			}
 		}
 	}
-	// listeStagiaire.forEach(stag -> System.out.println(stag));
 
-	// }
-
-	public static List<Stagiaire> rechercheFiltre(ArbreBinaireModel arbre, String filtreNom, String filtreDepartement,
-			String filtrePromotion, String filtreAnnee) {
-		List<Stagiaire> list = new ArrayList<Stagiaire>();
-		Predicate<Stagiaire> filter = e -> (filtreNom.isEmpty() || e.getNom().startsWith(filtreNom))
-				&& (filtreDepartement.isEmpty() || e.getDepartement().startsWith(filtreDepartement))
-				&& (filtrePromotion.isEmpty() || e.getPromotion().startsWith(filtrePromotion))
-				&& (filtreAnnee.isEmpty() || String.valueOf(e.getAnnee()) == filtreAnnee);
-		ArbreBinaireModel<Stagiaire> stagiaireFiltre = arbre.filter(filter);
-		// for (int i = 0; i < stagiaireFiltre.getSize(); i++) {
-		// stagiaireFiltre.get(i);
-		for (int i = 0; i <= stagiaireFiltre.getSize(); i++) {
-			Stagiaire el = stagiaireFiltre.get(i);
-			if(el!=null)
-			list.add(el);
-			// TODO arbre � afficher en infixe
-		}
-
-		return list;
-	}
-
+	// LECTURE DU FICHIER BINAIRE
 	public void lectureSeuleFichier(long position) {
 		StringBuilder stNom = new StringBuilder();
 		StringBuilder stPrenom = new StringBuilder();
@@ -143,8 +113,6 @@ public class LanceurTestFXProjet1 extends Application {
 		StringBuilder stNoeud = new StringBuilder();
 		StringBuilder myStringBuilder = new StringBuilder();
 
-		// ArbreBinaireModel<Stagiaire> arbreStagiaireBin = new ArbreBinaireModel<>();
-		// passer la position en argument
 		try (RandomAccessFile raf = new RandomAccessFile(
 
 				resource1.getFile(), "r")) {
@@ -153,21 +121,18 @@ public class LanceurTestFXProjet1 extends Application {
 
 			while (position % 124 < 121) {
 
-				//char test = raf.readChar();
-				
-
 				stNom.setLength(0);
 				for (int i = 0; i < 21; i++) {
 					stNom.append(raf.readChar());
 				}
 				String nom = stNom.toString().trim();
-				
-				if(nom.startsWith("*")) {
+
+				if (nom.startsWith("*")) {
 					position = position + 124;
 					raf.seek(position);
 					continue;
 				}
-				
+
 				st.setNom(nom);
 
 				position = position + 42;
@@ -211,8 +176,7 @@ public class LanceurTestFXProjet1 extends Application {
 				raf.seek(position);
 
 				int iD = raf.readInt();
-				System.out.println(st + "" + iD);
-				
+
 				Data.getInstance().getArbreStagiaireBin().creationArbredeFicherBin(st, iD);
 
 				st = new Stagiaire();
@@ -222,17 +186,22 @@ public class LanceurTestFXProjet1 extends Application {
 		} catch (IOException ioe) {
 			ioe.getMessage();
 		}
-	//	Stagiaire test = new Stagiaire("CHAVENEAU", "Kim Anh", "92", "ATOD 22", 2014);
-	//	Data.getInstance().getArbreStagiaireBin().supprimerNoeud(test);
 	}
-	// raf.close();
 
-	// private String readString(RandomAccessFile raf, int size) throws IOException
-	// {
-	// byte[] tmp = new byte[size];
-	// raf.read(tmp);
-	// String nom = new String(tmp);
-	// return nom;
-	// }
-
+	// METHODE DE RECHERCHE MULTI-CRITERES
+	public static List<Stagiaire> rechercheFiltre(ArbreBinaireModel arbre, String filtreNom, String filtreDepartement,
+			String filtrePromotion, Integer filtreAnnee) {
+		List<Stagiaire> list = new ArrayList<Stagiaire>();
+		Predicate<Stagiaire> filter = e -> (filtreNom.isEmpty() || e.getNom().startsWith(filtreNom))
+				&& (filtreDepartement.isEmpty() || e.getDepartement().startsWith(filtreDepartement))
+				&& (filtrePromotion.isEmpty() || e.getPromotion().startsWith(filtrePromotion))
+				&& (filtreAnnee == null || e.getAnnee() == Integer.valueOf(filtreAnnee));
+		ArbreBinaireModel<Stagiaire> stagiaireFiltre = arbre.filter(filter);
+		for (int i = 0; i <= stagiaireFiltre.getSize(); i++) {
+			Stagiaire el = stagiaireFiltre.get(i);
+			if (el != null)
+				list.add(el);
+		}
+		return list;
+	}
 }

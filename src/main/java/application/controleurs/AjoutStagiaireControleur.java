@@ -1,6 +1,5 @@
 package application.controleurs;
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,7 +33,7 @@ public class AjoutStagiaireControleur implements Initializable {
 	private TextField prenomStTextField;
 	@FXML
 	private TextField promoStTextField;
-	
+
 	private AccueilPrincipalControleur vueAjoutStagiaire;
 	private Stage ajoutStagiaireStage;
 
@@ -83,16 +82,11 @@ public class AjoutStagiaireControleur implements Initializable {
 			stagiaire.setDepartement(departementStTextField.getText());
 			stagiaire.setPromotion(promoStTextField.getText());
 			stagiaire.setAnnee(Integer.valueOf(anneeStTextField.getText()));
-			
-			//TODO r�cup�ration des donn�es du nouveau stagiaire dans l'arbre
-			//arbreStagiaires.ajoutNouveauNoeud(stagiaire);
-			//
-			
-//			vueAjoutStagiaire.mettreAJourTable(stagiaire);
+
 			vueAjoutStagiaire.ajouterStagaireDansArbre(stagiaire);
 
 			closeStage();
-			
+
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setHeaderText("Erreurs de saisie : ");
@@ -104,6 +98,7 @@ public class AjoutStagiaireControleur implements Initializable {
 	private void closeStage() {
 		ajoutStagiaireStage.close();
 	}
+
 	@FXML
 	public void reset() {
 		this.nomStTextField.clear();
@@ -111,45 +106,36 @@ public class AjoutStagiaireControleur implements Initializable {
 		this.departementStTextField.clear();
 		this.promoStTextField.clear();
 		this.anneeStTextField.clear();
-		System.out.println("all clear");
 	}
-	
+
 	@FXML
 	public void returnToAccueilPrincipal() {
-//		Stage stage = (Stage) annulStBtn.getScene().getWindow(); 
-//		stage.close(); 
-		System.out.println("retour vers Accueil Principal");
 		this.ajoutStagiaireStage.hide();
 	}
 
 	private String validerSaisie() {
 		StringBuilder errorsBuilder = new StringBuilder();
 
-		// nom
 		String nom = nomStTextField.getText();
 		if (nom == null || nom.trim().isEmpty()) {
 			errorsBuilder.append("Le nom du stagiaire doit être renseigné\n");
 		}
 
-		// prenom
 		String prenom = prenomStTextField.getText();
 		if (prenom.trim().isEmpty()) {
 			errorsBuilder.append("Le prénom du stagiaire doit être renseigné\n");
 		}
 
-		// departement
 		String departement = departementStTextField.getText();
 		if (departement.trim().isEmpty()) {
 			errorsBuilder.append("Le département du stagiaire doit être renseigné\n");
 		}
 
-		// promotion
 		String promotion = promoStTextField.getText();
 		if (promotion.trim().isEmpty()) {
 			errorsBuilder.append("La promotion du stagiaire doit être renseigné\n");
 		}
 
-		// annee
 		String annee = anneeStTextField.getText();
 		if (annee == null || annee.trim().isEmpty()) {
 			errorsBuilder.append("L'année d'inscription doit être renseignée\n");
@@ -166,7 +152,5 @@ public class AjoutStagiaireControleur implements Initializable {
 	public void setStage(Stage stage) {
 		ajoutStagiaireStage = stage;
 	}
-
-
 
 }

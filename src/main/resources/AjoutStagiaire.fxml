@@ -7,25 +7,57 @@
 <?import javafx.scene.layout.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="513.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Button fx:id="ajoutStBtn" layoutX="96.0" layoutY="445.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="72.0" text="Valider" />
-      <Button fx:id="resetStBtn" layoutX="216.0" layoutY="445.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="72.0" text="Reset" />
-      <Button fx:id="annulStBtn" layoutX="339.0" layoutY="445.0" mnemonicParsing="false" text="Annuler" />
-      <Label alignment="CENTER_RIGHT" layoutX="-3.0" layoutY="159.0" prefHeight="21.0" prefWidth="184.0" text="Nom" />
-      <Label alignment="CENTER_RIGHT" layoutX="-3.0" layoutY="214.0" prefHeight="21.0" prefWidth="184.0" text="Prénom" />
-      <Label alignment="CENTER_RIGHT" layoutX="-3.0" layoutY="269.0" prefHeight="21.0" prefWidth="184.0" text="Département" />
-      <Label alignment="CENTER_RIGHT" layoutX="-3.0" layoutY="324.0" prefHeight="21.0" prefWidth="184.0" text="Promotion" />
-      <Label alignment="CENTER_RIGHT" layoutX="53.0" layoutY="378.0" text="Année d'inscription" />
-      <Label layoutX="14.0" layoutY="14.0" text="AJOUT D'UN STAGIAIRE" textFill="#048b9a">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
-      <TextField fx:id="nomStTextField" layoutX="232.0" layoutY="154.0" />
-      <TextField fx:id="prenomStTextField" layoutX="232.0" layoutY="209.0" />
-      <TextField fx:id="departementStTextField" layoutX="232.0" layoutY="264.0" prefHeight="31.0" prefWidth="96.0" />
-      <TextField fx:id="promoStTextField" layoutX="232.0" layoutY="319.0" prefHeight="31.0" prefWidth="186.0" />
-      <TextField fx:id="anneeStTextField" layoutX="232.0" layoutY="375.0" prefHeight="31.0" prefWidth="96.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#048b9a" height="58.0" layoutX="-3.0" layoutY="71.0" stroke="BLACK" strokeType="INSIDE" width="519.0" />
-   </children>
+	<children>
+		<Button fx:id="ajoutStBtn" layoutX="96.0" layoutY="445.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="72.0" style="-fx-border-color: #048B9A; -fx-background-color: #FFFFFF;" text="Valider" textFill="#048b9a">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Button>
+		<Button fx:id="resetStBtn" layoutX="216.0" layoutY="445.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="72.0" style="-fx-border-color: #048B9A; -fx-background-color: #FFFFFF;" text="Reset" textFill="#048b9a">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Button>
+		<Button fx:id="annulStBtn" layoutX="339.0" layoutY="445.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="72.0" style="-fx-border-color: #048B9A; -fx-background-color: #FFFFFF;" text="Annuler" textFill="#048b9a">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Button>
+		<Label alignment="CENTER_RIGHT" layoutX="-3.0" layoutY="159.0" prefHeight="21.0" prefWidth="184.0" text="Nom" textFill="#048b9a">
+			<font>
+				<Font name="System Bold Italic" size="12.0" />
+			</font>
+		</Label>
+		<Label alignment="CENTER_RIGHT" layoutX="-3.0" layoutY="214.0" prefHeight="21.0" prefWidth="184.0" text="Prénom" textFill="#048b9a">
+			<font>
+				<Font name="System Bold Italic" size="12.0" />
+			</font>
+		</Label>
+		<Label alignment="CENTER_RIGHT" layoutX="-3.0" layoutY="269.0" prefHeight="21.0" prefWidth="184.0" text="Département" textFill="#048b9a">
+			<font>
+				<Font name="System Bold Italic" size="12.0" />
+			</font>
+		</Label>
+		<Label alignment="CENTER_RIGHT" layoutX="-3.0" layoutY="324.0" prefHeight="21.0" prefWidth="184.0" text="Promotion" textFill="#048b9a">
+			<font>
+				<Font name="System Bold Italic" size="12.0" />
+			</font>
+		</Label>
+		<Label alignment="CENTER_RIGHT" layoutX="78.0" layoutY="382.0" text="Année d'inscription" textFill="#048b9a">
+			<font>
+				<Font name="System Bold Italic" size="12.0" />
+			</font>
+		</Label>
+		<Label layoutX="14.0" layoutY="14.0" text="AJOUT D'UN STAGIAIRE" textFill="#048b9a">
+			<font>
+				<Font name="System Bold" size="24.0" />
+			</font>
+		</Label>
+		<TextField fx:id="nomStTextField" layoutX="216.0" layoutY="154.0" />
+		<TextField fx:id="prenomStTextField" layoutX="216.0" layoutY="209.0" />
+		<TextField fx:id="departementStTextField" layoutX="216.0" layoutY="264.0" prefHeight="31.0" prefWidth="96.0" />
+		<TextField fx:id="promoStTextField" layoutX="216.0" layoutY="319.0" prefHeight="31.0" prefWidth="186.0" />
+		<TextField fx:id="anneeStTextField" layoutX="216.0" layoutY="375.0" prefHeight="31.0" prefWidth="96.0" />
+		<Rectangle arcHeight="5.0" arcWidth="5.0" fill="#048b9a" height="58.0" layoutX="-3.0" layoutY="71.0" stroke="BLACK" strokeType="INSIDE" width="519.0" />
+	</children>
 </Pane>
