@@ -43,13 +43,10 @@ public class EcritureFichierBinaire<E extends IEnregistrable> {
 	}
 
 	public void ecrireNouveauNoeud(E st, int iDNoeudParent, int numDeNoeud) {
-
 		try (RandomAccessFile raf = new RandomAccessFile(resource1.getFile(), "rw");) {
-			// TODO modifier le length pour �crire dans les trous de suppression
 			raf.seek(raf.length());
 			raf.writeChars(st.uniformise());
 			raf.writeInt((int) ((Stagiaire) st).getAnnee());
-			// AJOUT NOEUD PARENT
 			raf.writeInt(iDNoeudParent);
 			raf.writeInt(st.getIDNoeudINIT());
 			raf.writeInt(st.getIDNoeudINIT());
@@ -78,13 +75,10 @@ public class EcritureFichierBinaire<E extends IEnregistrable> {
 		try (RandomAccessFile raf = new RandomAccessFile(resource1.getFile(), "rw");) {
 			raf.seek(idNoeud * st.getStagiaire().getTailleEnregistrement() + 108);
 
-			// ID PARENT
 			int idNoeudParent = raf.readInt();
 			raf.getFilePointer();
 
-			// SE POSITIONNE EN DEBUT DE NOEUD GAUCHE DU PARENT
 			raf.seek(idNoeudParent * st.getStagiaire().getTailleEnregistrement() + 112);
-			// LIT LE NOEUD GAUCHE
 			int test = raf.readInt();
 			if (test == idNoeud) {
 				raf.seek(idNoeudParent * st.getStagiaire().getTailleEnregistrement() + 112);
@@ -92,29 +86,9 @@ public class EcritureFichierBinaire<E extends IEnregistrable> {
 			} else {
 				raf.writeInt(idNoeudSuccesseur);
 			}
-
-			// MODIFICATION DU SUCCESSEUR
 			raf.getFilePointer();
-
-			// SE POSITIONNE EN DEBUT DE NOEUD PARENT DU SUCCESSEUR
 			raf.seek(idNoeudSuccesseur * st.getStagiaire().getTailleEnregistrement() + 108);
 			raf.writeInt(idNoeudParent);
-		} catch (IOException ioe) {
-			ioe.getMessage();
-		}
-	}
-
-	public void reecrirePositionParentFeuille(Noeud<? extends IEnregistrable> st, int idNoeudSuccesseur, int idNoeud) {
-		int positionAModifier = 0;
-		try (RandomAccessFile raf = new RandomAccessFile(resource1.getFile(), "rw");) {
-			raf.seek(idNoeud * st.getStagiaire().getTailleEnregistrement() + 108);
-			// ID PARENT
-			int idNoeudParent = raf.readInt();
-			raf.getFilePointer();
-			//// SE POSITIONNE EN DEBUT DU PARENT DU PARENT
-			raf.seek(idNoeudParent * st.getStagiaire().getTailleEnregistrement() + 108);
-			raf.writeInt(idNoeud);
-			raf.writeInt(idNoeudSuccesseur);
 		} catch (IOException ioe) {
 			ioe.getMessage();
 		}
@@ -124,14 +98,13 @@ public class EcritureFichierBinaire<E extends IEnregistrable> {
 			int idNoeud) {
 		int positionAModifier = 0;
 		try (RandomAccessFile raf = new RandomAccessFile(resource1.getFile(), "rw");) {
-			// if (idNoeud != 0) {
 			raf.seek(idNoeud * st.getStagiaire().getTailleEnregistrement() + 108);
-			// ID PARENT //REECRIT POSITIONS DU NOEUD DE REMPLACEMENT 0 4 2
+			// ID PARENT //REECRITURE POSITIONS DU NOEUD DE REMPLACEMENT
 			raf.writeInt(noeudParent);
 			raf.writeInt(noeudG);
 			raf.writeInt(noeudD);
 
-			// MODIFICATION NG DU NOEUD PARENT LACROIX -1 7 3 0 //TODO BOUCLE DE COMPA PR ND
+			// MODIFICATION NG DU NOEUD PARENT
 			raf.getFilePointer();
 			if (noeudParent == 0) {
 				raf.seek(112);
@@ -140,8 +113,7 @@ public class EcritureFichierBinaire<E extends IEnregistrable> {
 				raf.seek(noeudParent * st.getStagiaire().getTailleEnregistrement() + 112);
 				raf.writeInt(idNoeud);
 			}
-			// NOUVEAU PARENT DU NOEUD GAUCHE : GARIJO 7 7 -1 2
-			// MANQUE LE -1 SUR PERTE DU NOEUD DANS LA PETITE RECURSIVE
+			// NOUVEAU PARENT DU NOEUD GAUCHE
 			raf.getFilePointer();
 			raf.seek(noeudG * st.getStagiaire().getTailleEnregistrement() + 108);
 			raf.writeInt(idNoeud);

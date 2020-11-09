@@ -1,4 +1,4 @@
 AD1100/azerty
 AD1101/azerty
-FR9900/123456
-FR9901/123456
+FR9900/azerty
+FR9901/azerty

@@ -1,25 +1,22 @@
 package application.controleurs;
 
-
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 
 import application.models.NouvelUtilisateurModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 
 public class CreerUtilisateurControleur implements Initializable {
 
@@ -42,7 +39,6 @@ public class CreerUtilisateurControleur implements Initializable {
 	@FXML
 	private Button reset;
 
-
 	protected List<NouvelUtilisateurModel> utilisateurList = new ArrayList<NouvelUtilisateurModel>();
 
 	Alert alert = new Alert(AlertType.ERROR);
@@ -56,7 +52,6 @@ public class CreerUtilisateurControleur implements Initializable {
 	public LoginControleur getVuePrincipaleControleur() {
 		return vuePrincipaleControleur;
 	}
-
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -80,7 +75,6 @@ public class CreerUtilisateurControleur implements Initializable {
 		});
 	}
 
-
 	@FXML
 	public void creerUtilisateur(ActionEvent event) {
 
@@ -96,60 +90,64 @@ public class CreerUtilisateurControleur implements Initializable {
 			validateCodeEmploye(codeEmploye);
 			validateMdp(mdp, confirmMdp);
 			validateMdp(confirmMdp, mdp);
-			System.out.println("Votre email est " + adresseEmail + "\nVotre mot de passe est " + mdp + "\nVotre code employé est " + codeEmploye);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			String msg = e.getMessage();
 			alert.setHeaderText(msg);
 			alert.show();
 		}
 
-		if(mdp.equals(confirmMdp)) {
-			NouvelUtilisateurModel monUtilisateur = new NouvelUtilisateurModel(adresseEmail, codeEmploye, nom, prenom, mdp, confirmMdp);
+		if (mdp.equals(confirmMdp)) {
+			NouvelUtilisateurModel monUtilisateur = new NouvelUtilisateurModel(adresseEmail, codeEmploye, nom, prenom,
+					mdp, confirmMdp);
 			utilisateurList.add(monUtilisateur);
 			resetAll();
-			System.out.println("Le profil a bien été enregistré" );
-			if(!alert.isShowing()) { 
-				Stage stage = (Stage) retour.getScene().getWindow(); 
-				stage.close(); 
+			if (!alert.isShowing()) {
+				Stage stage = (Stage) retour.getScene().getWindow();
+				stage.close();
 			}
-			System.out.println("retour Login");
 		}
-
 	}
 
 	private void validateCodeEmploye(String codeEmploye) throws IOException {
-		if(codeEmploye.trim().isEmpty()) throw new IOException("Votre code employé est obligatoire");
-		if(!codeEmploye.contains("AD") && !(codeEmploye.length() == 6) | !codeEmploye.contains("FR") && !(codeEmploye.length() == 6))throw new IOException("Votre code employé doit être valide : XX**** (X pour lettre majuscule et * pour chiffre");
+		if (codeEmploye.trim().isEmpty())
+			throw new IOException("Votre code employÃ© est obligatoire");
+		if (!codeEmploye.contains("AD") && !(codeEmploye.length() == 6) | !codeEmploye.contains("FR")
+				&& !(codeEmploye.length() == 6))
+			throw new IOException(
+					"Votre code employÃ© doit Ãªtre valide : ex. AD1234 (Deux lettres (AD ou FR) suivies de 4 chiffres");
 	}
+
 	private void validateMdp(String mdp, String confirmMdp) throws IOException {
 
-		if(mdp.trim().isEmpty() || confirmMdp.trim().isEmpty()) throw new IOException("Le mot de passe ne doit pas vide");
-		if(mdp.length() < 6 ) throw new IOException("Le mot de passe doit pas être inférieur à 6 caractères");
-		if(!mdp.equals(confirmMdp)) throw new IOException("les mots de passe ne correspondent pas");
-	}
-	private void validateEMail(String eMail) throws IOException {
-		if(eMail.trim().isEmpty()) throw new IOException("L'adresse email ne doit pas vide");
-		if(!eMail.contains("@") && !eMail.contains(".")) throw new IOException("merci de fournir une adresse email valide");
+		if (mdp.trim().isEmpty() || confirmMdp.trim().isEmpty())
+			throw new IOException("Le mot de passe ne doit pas vide");
+		if (mdp.length() < 6)
+			throw new IOException("Le mot de passe ne doit pas Ãªtre infÃ©rieur Ã  6 caractÃ¨res");
+		if (!mdp.equals(confirmMdp))
+			throw new IOException("Les mots de passe ne correspondent pas");
 	}
 
+	private void validateEMail(String eMail) throws IOException {
+		if (eMail.trim().isEmpty())
+			throw new IOException("L'adresse email est obligatoire");
+		if (!eMail.contains("@") && !eMail.contains("."))
+			throw new IOException("Merci de fournir une adresse email valide");
+	}
 
 	@FXML
 	public void resetAll() {
-		// TODO : vider tous les champs de type textfield
 		this.eMailTextField.clear();
 		this.codeEmployeTextField.clear();
 		this.nomTextField.clear();
 		this.prenomTextField.clear();
 		this.mdpField.clear();
 		this.confirmMdpField.clear();
-		System.out.println("all clear");
 	}
+
 	@FXML
 	public void precedent() {
-		Stage stage = (Stage) retour.getScene().getWindow(); 
-		stage.hide(); 
-		System.out.println("Fenetre nouvel utilisateur fermé");
+		Stage stage = (Stage) retour.getScene().getWindow();
+		stage.hide();
 	}
 
 }

@@ -43,7 +43,8 @@ public class LoginControleur implements Initializable {
 	private PasswordField votreMdpField;
 
 	private Stage primaryStage;
-	Alert alert = new Alert(AlertType.WARNING) ;
+	Alert alert = new Alert(AlertType.WARNING);
+
 	class User {
 		private String username;
 		private String password;
@@ -55,20 +56,18 @@ public class LoginControleur implements Initializable {
 	private List<User> loadUser() {
 		List<User> users = new ArrayList<>();
 		InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("utilisateursCrees.txt");
-		try(
-				Scanner scan = new Scanner(resourceAsStream)) {
+		try (Scanner scan = new Scanner(resourceAsStream)) {
 			User user = new User();
-			while(scan.hasNext()) {
+			while (scan.hasNext()) {
 				String ligne = scan.next();
 				String codeEmploye = ligne.split("/")[0];
 				String motDePasse = ligne.split("/")[1];
 				user.username = codeEmploye;
 				user.password = motDePasse;
 				users.add(user);
-				user = new User(); 
+				user = new User();
 			}
 		} catch (Exception e) {
-			System.err.println("Fichier users introuvable");
 		}
 		return users;
 	}
@@ -111,46 +110,45 @@ public class LoginControleur implements Initializable {
 
 		User userConnecte = null;
 		List<User> users = loadUser();
-		for(User user : users) {
+		for (User user : users) {
 			if (user.username.equals(codeEmploye) && user.password.equals(password)) {
 				userConnecte = user;
 				break;
 			}
 		}
 
-		if(userConnecte != null) {
-			if(userConnecte.username.startsWith("AD")) {
+		if (userConnecte != null) {
+			if (userConnecte.username.startsWith("AD")) {
 				try {
 					allerVersAccueilPrincipal();
 					primaryStage.hide();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			else {
+			} else {
 				try {
 					allerVersAccueilPrincipal2();
 					primaryStage.hide();
 				} catch (IOException e) {
 					e.printStackTrace();
-				} 
+				}
 			}
 
 		} else {
 			alert.setTitle("Attention");
-			alert.setHeaderText("Veuillez entrer un utilisateur");
+			alert.setHeaderText("Veuillez entrer un utilisateur valide");
 			alert.show();
-			
-			
+
 		}
 	}
 
 	private void afficherFenetreNouvelUtilisateur() throws IOException {
 
 		NouvelUtilisateurModel nUModel = new NouvelUtilisateurModel();
-		CreerUtilisateurControleur  controleur = new CreerUtilisateurControleur(this, nUModel);
+		CreerUtilisateurControleur controleur = new CreerUtilisateurControleur(this, nUModel);
 
-		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(VUE_AJOUT_NOUVEL_UTILISATEUR_VIEW_PATH));
+		FXMLLoader loader = new FXMLLoader(
+				getClass().getClassLoader().getResource(VUE_AJOUT_NOUVEL_UTILISATEUR_VIEW_PATH));
 		loader.setController(controleur);
 		Pane rootPane = loader.load();
 
@@ -160,30 +158,32 @@ public class LoginControleur implements Initializable {
 		ajoutNouvelUtilisateurStage.setScene(scene);
 		ajoutNouvelUtilisateurStage.show();
 	}
+
 	@FXML
 	public void resetAll() {
 		this.votreEMailTextField.clear();
 		this.votreMdpField.clear();
-		System.out.println("all clear");
 	}
+
 	@FXML
 	public void closeWindow() {
 		Platform.exit();
-		System.out.println("application quittée");
 	}
+
 	public void setStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 
 	}
+
 	public void afficher() {
 		this.primaryStage.show();
 	}
 
-
+	// ACCES ADMINISTRATEUR
 	@FXML
 	public void allerVersAccueilPrincipal() throws IOException {
 
-		AccueilPrincipalControleur  controleur = new AccueilPrincipalControleur(this);
+		AccueilPrincipalControleur controleur = new AccueilPrincipalControleur(this);
 
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(VUE_ACCUEIL_VIEW_PATH));
 		loader.setController(controleur);
@@ -197,10 +197,12 @@ public class LoginControleur implements Initializable {
 
 		controleur.setStage(accueilStage);
 	}
+
+	// ACCES FORMATEUR
 	@FXML
 	public void allerVersAccueilPrincipal2() throws IOException {
 
-		AccueilPrincipalControleur  controleur = new AccueilPrincipalControleur(this);
+		AccueilPrincipalControleur controleur = new AccueilPrincipalControleur(this);
 
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(VUE_ACCUEIL2_VIEW_PATH));
 		loader.setController(controleur);
@@ -214,6 +216,5 @@ public class LoginControleur implements Initializable {
 
 		controleur.setStage(accueilStage);
 	}
-
 
 }

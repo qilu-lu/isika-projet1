@@ -2,8 +2,6 @@ package application.models;
 
 import java.util.function.Predicate;
 
-
-
 public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 	public static final String LISTE_STAGIAIRE_FICHIER = "";
 
@@ -28,7 +26,7 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 			gauche = null;
 			droit = null;
 		}
-		
+
 		public T getStagiaire() {
 			return stagiaire;
 		}
@@ -58,7 +56,7 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 		if (courant == null) {
 			racine = new Noeud<E>(st, 0);
 			size++;
-			ecr.ecrireNouveauNoeud(st,-1, racine.getID());
+			ecr.ecrireNouveauNoeud(st, -1, racine.getID());
 		} else {
 			boolean trouve = false;
 			while (!trouve) {
@@ -90,11 +88,11 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 		}
 	}
 
-	public void creationArbredeFicherBin(E st,int iD) {
+	public void creationArbredeFicherBin(E st, int iD) {
 		Noeud<E> courant = racine;
 		if (courant == null) {
 			racine = new Noeud<E>(st, iD);
-			size=iD;
+			size = iD;
 
 		} else {
 			boolean trouve = false;
@@ -105,14 +103,14 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 				} else if (test < 0) {
 					if (courant.gauche == null) {
 						courant.gauche = new Noeud<E>(st, iD);
-						size=iD;
+						size = iD;
 					} else {
 						courant = courant.gauche;
 					}
 				} else {
 					if (courant.droit == null) {
 						courant.droit = new Noeud<E>(st, iD);
-						size=iD;
+						size = iD;
 
 					} else {
 						courant = courant.droit;
@@ -133,45 +131,28 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 			return null;
 		if (noeudASuppr.compareTo(courant.stagiaire) == 0) {
 
-			// CAS 1 : PAS DE FILS
 			if (courant.gauche == null && courant.droit == null) {
 				ecr.reecrirePositionNoeud(courant, -1, courant.getID());
 				ecr.supprimerNoeudDansBin(courant, courant.getID());
-				//size = size-1;
 				return null;
-
-				// CAS 2 : UN FILS
 			} else if (courant.gauche == null) {
 				ecr.reecrirePositionNoeud(courant, courant.droit.getID(), courant.getID());
 				ecr.supprimerNoeudDansBin(courant, courant.getID());
-				//size = size-1;
 				return courant.droit;
 			} else if (courant.droit == null) {
 				ecr.reecrirePositionNoeud(courant, courant.gauche.getID(), courant.getID());
 				ecr.supprimerNoeudDansBin(courant, courant.getID());
-				//size = size-1;
 				return courant.gauche;
 
-				// CAS 3 : DEUX FILS
 			} else {
-				// REMPLACE ND SUPPR PAR PLUS PETITE VALEUR ET LA PLACER DANS NOEUD A SUPPR
 				E valMin = trouverLaPlusPetiteValeur(courant.droit);
-
-				// PRENDS LA VALEUR DU PLUS PETIT / NE PAS REMPLACER L'ID
 				courant.stagiaire = valMin;
-
-				// SUPPRIME LE NOEUD DANS LE BIN
 				int noeudParent = ecr.recupererIdentifiants(courant, courant.getID());
 				ecr.supprimerNoeudDansBin(courant, courant.getID());
-
-				// CORRIGE IDENTIFIANT NOEUD REMPLACEMENT
 				int corrID = recupererID(courant.droit);
-				
-				courant.iD = corrID; //on récupère le 7 dans l'arbre
+				courant.iD = corrID;
 				ecr.reecrirePositionNoeudCas3(courant, noeudParent, courant.gauche.iD, courant.droit.iD,
 						courant.getID());
-
-				// RECURSIVE POUR SUPPRIMER PLUS PETIT NOEUD DANS L'ARBRE
 				courant.droit = remplacerFeuille(courant.droit, valMin);
 				return courant;
 			}
@@ -183,7 +164,7 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 		courant.droit = remplacerNoeud(courant.droit, noeudASuppr);
 		return courant;
 	}
-	
+
 	private Noeud<E> remplacerFeuille(Noeud<E> droit, E feuille) {
 		EcritureFichierBinaire<IEnregistrable> ecr = new EcritureFichierBinaire<IEnregistrable>();
 		Noeud<E> courant = droit;
@@ -191,7 +172,6 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 			return null;
 		if (feuille.compareTo(courant.stagiaire) == 0) {
 			if (courant.gauche == null && courant.droit == null) {
-				//size = size-1;
 				return null;
 			}
 		}
@@ -206,34 +186,30 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 	public int recupererID(Noeud nMin) {
 		return nMin.gauche == null ? nMin.iD : recupererID(nMin.gauche);
 	}
-	
 
-
-	public ArbreBinaireModel<E>filter(Predicate<E>p){
-		ArbreBinaireModel<E>ret=new ArbreBinaireModel<>();
+	public ArbreBinaireModel<E> filter(Predicate<E> p) {
+		ArbreBinaireModel<E> ret = new ArbreBinaireModel<>();
 		for (int i = 0; i <= this.size; i++) {
-			final E el=this.get(getRacine(), i);
-			if(el !=null && p.test(el)) {
+			final E el = this.get(getRacine(), i);
+			if (el != null && p.test(el)) {
 				ret.creationArbredeFicherBin(el, i);
 			}
 		}
 		return ret;
-
 	}
 
-	public E get( int pos) {	
+	public E get(int pos) {
 		return get(racine, pos);
 	}
 
-	private E get(Noeud<E> r, int pos) {	
+	private E get(Noeud<E> r, int pos) {
 		if (r != null) {
 			if (r.iD == pos)
-				return r.stagiaire;		
+				return r.stagiaire;
 			E e = get(r.gauche, pos);
 			if (e != null) {
 				return e;
 			}
-			// System.out.println(r);
 			e = get(r.droit, pos);
 			if (e != null) {
 				return e;
@@ -251,16 +227,6 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 		}
 	}
 
-	//	public void infixe(Noeud<E> r) {
-	//		if (r != null) {
-	//			infixe(r.gauche);
-	//			System.out.println(r.getID() +"\n");
-	//			infixe(r.droit);
-	//		}
-	//	}
-
-
-
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -269,6 +235,5 @@ public class ArbreBinaireModel<E extends IEnregistrable<E>> {
 		builder.append("]");
 		return builder.toString();
 	}
-
 
 }
