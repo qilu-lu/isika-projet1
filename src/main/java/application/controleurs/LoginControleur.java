@@ -27,8 +27,8 @@ import javafx.stage.Stage;
 public class LoginControleur implements Initializable {
 
 	private static final String VUE_AJOUT_NOUVEL_UTILISATEUR_VIEW_PATH = "NouvelUtilisateur.fxml";
-	private static final String VUE_ACCUEIL_VIEW_PATH = "AccueilPrincipal.fxml";
-	private static final String VUE_ACCUEIL2_VIEW_PATH = "AccueilPrincipal2.fxml";
+	private static final String VUE_ACCUEIL_VIEW_PATH = "AccueilPrincipalAdmin.fxml";
+	private static final String VUE_ACCUEIL2_VIEW_PATH = "AccueilPrincipalFormateur.fxml";
 	@FXML
 	private Button creerUnNouvelUtilisateur;
 	@FXML

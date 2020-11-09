@@ -10,7 +10,7 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="845.0" prefWidth="1284.0" style="-fx-background-color: 0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#048b9a" height="317.0" layoutY="147.0" stroke="BLACK" strokeType="INSIDE" width="1284.0" />
-      <TableView fx:id="stagiairesTable" layoutY="185.0" prefHeight="659.0" prefWidth="755.0">
+      <TableView fx:id="stagiairesTable" layoutY="185.0" prefHeight="659.0" prefWidth="770.0">
         <columns>
           <TableColumn fx:id="nom" prefWidth="242.0" text="Nom" />
           <TableColumn fx:id="prenom" prefWidth="142.0" text="Prénom" />
@@ -36,6 +36,12 @@
               <MenuItem fx:id="ajoutMenuBtn" mnemonicParsing="false" text="Ajouter un nouveau Stagiaire" />
                   <MenuItem fx:id="exporterEnPdfMenuBtn" mnemonicParsing="false" text="Exporter la liste" />
             </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Aide">
+            <items>
+              <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="Qui sommes nous ?" />
+                  <MenuItem fx:id="manuelUserMenuItem" mnemonicParsing="false" text="Guide utilisateur" />
+            </items> 
           </Menu>
         </menus>
       </MenuBar>
@@ -43,11 +49,11 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <Button fx:id="modifBtn" layoutX="781.0" layoutY="716.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="101.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #048B9A;" text="Modifier" textFill="#048b9a">
+      <Button fx:id="modifBtn" disable="true" layoutX="781.0" layoutY="716.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="101.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #048B9A;" text="Modifier" textFill="#048b9a">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <Button fx:id="supprBtn" layoutX="781.0" layoutY="769.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="100.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #048B9A;" text="Supprimer" textFill="#048b9a">
+      <Button fx:id="supprBtn" disable="true" layoutX="781.0" layoutY="769.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="100.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #048B9A;" text="Supprimer" textFill="#048b9a">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>

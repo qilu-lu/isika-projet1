@@ -20,7 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class LanceurTestFXProjet1 extends Application {
+public class LanceurProjet extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -48,14 +48,14 @@ public class LanceurTestFXProjet1 extends Application {
 
 	public static void main(String[] args) throws IOException {
 
-		LanceurTestFXProjet1 lanceur = new LanceurTestFXProjet1();
+		LanceurProjet lanceur = new LanceurProjet();
 
 		lanceur.lectureSeuleFichier(0);
 
 		launch(args);
 	}
 
-	public LanceurTestFXProjet1() throws IOException {
+	public LanceurProjet() throws IOException {
 
 		URL resource = getClass().getClassLoader().getResource(CHEMIN_FICHIER_STAGIAIRE_DON);
 		// AU PREMIER LANCEMENT : CHARGEMENT DU FICHIER SOURCE .DON
